@@ -1,3 +1,5 @@
 .RData
 .Rhistory
 thesis.resources.Rproj
+.Rbuildignore
+.Rproj.user
