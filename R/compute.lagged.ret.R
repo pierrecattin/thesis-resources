@@ -21,7 +21,7 @@ compute.lagged.ret <- function(prices, max.lag=120){
   for (d in days){
     day.num <- which(days==d) # only for pb
     setTkProgressBar(pb.ind, day.num, label=paste0(day.num, "/", length(days), " days computed"))
-    closes <- as.numeric(prices[all.days==d,"Close"])
+    closes <- as.numeric(prices[all.days==d,"close"])
 
     apply.fun <- function(n){
       return(ROC(closes, n=n, type="discrete"))

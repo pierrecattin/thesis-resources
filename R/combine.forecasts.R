@@ -4,8 +4,8 @@
 #' @param x: matrix where each line is an observation, and each colum contains the probability that the class is "positive "up" estimated by one model. Colnames are the name of the models.
 #' @param y: vector of true classes
 #'
-#' @return
-#' @export list containing vector of combined probs and named numerics of coefficients
+#' @return list containing vector of combined probs and named numerics of coefficients
+#' @export
 #'
 #'
 combine.forecasts <- function(x, y){

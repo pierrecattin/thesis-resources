@@ -28,14 +28,14 @@ compute.indicators <- function(prices){
     setTkProgressBar(pb.ind, day.num, label=paste0(day.num, "/", length(days), " days computed"))
     prices.day <- prices[all.days==d,]
     #RSI
-    indicators[all.days==d,]$rsi.10 <- as.numeric(RSI(prices.day$Close, 10))
-    indicators[all.days==d,]$rsi.60  <- as.numeric(RSI(prices.day$Close, 60))
-    indicators[all.days==d,]$rsi.120 <- as.numeric(RSI(prices.day$Close, 120))
+    indicators[all.days==d,]$rsi.10 <- as.numeric(RSI(prices.day$close, 10))
+    indicators[all.days==d,]$rsi.60  <- as.numeric(RSI(prices.day$close, 60))
+    indicators[all.days==d,]$rsi.120 <- as.numeric(RSI(prices.day$close, 120))
 
     # MACD
-    indicators[all.days==d,]$macd.1.12 <-  as.numeric(MACD(prices.day$Close, nfast=1, nSlow=10, nSig=1)[,1])/prices.day$Close
-    indicators[all.days==d,]$macd.5.60 <-  (as.numeric(MACD(prices.day$Close, nfast=5, nSlow=60, nSig=1)[,1])/prices.day$Close)
-    indicators[all.days==d,]$macd.10.120 <-  (as.numeric(MACD(prices.day$Close, nfast=10, nSlow=120, nSig=1)[,1])/prices.day$Close)
+    indicators[all.days==d,]$macd.1.12 <-  as.numeric(MACD(prices.day$close, nfast=1, nSlow=10, nSig=1)[,1])/prices.day$close
+    indicators[all.days==d,]$macd.5.60 <-  (as.numeric(MACD(prices.day$close, nfast=5, nSlow=60, nSig=1)[,1])/prices.day$close)
+    indicators[all.days==d,]$macd.10.120 <-  (as.numeric(MACD(prices.day$close, nfast=10, nSlow=120, nSig=1)[,1])/prices.day$close)
 
     # WPR
     indicators[all.days==d,]$wpr.10 <- as.numeric(WPR(prices.day[, c("High", "Low", "Close")], n=10))
@@ -49,15 +49,15 @@ compute.indicators <- function(prices){
 
 
     # OBV
-    indicators[all.days==d,]$obv <- as.numeric(OBV(prices.day$Close, prices.day$Volume))
+    indicators[all.days==d,]$obv <- as.numeric(OBV(prices.day$close, prices.day$volume))
 
 
     # returns
-    indicators[all.days==d,]$return.1 <- ROC(as.numeric(prices.day$Close), n=1, type="discrete")
-    indicators[all.days==d,]$return.5 <- ROC(as.numeric(prices.day$Close), n=5, type="discrete")
-    indicators[all.days==d,]$return.15 <- ROC(as.numeric(prices.day$Close), n=15, type="discrete")
-    indicators[all.days==d,]$return.60 <- ROC(as.numeric(prices.day$Close), n=60, type="discrete")
-    indicators[all.days==d,]$return.120 <- ROC(as.numeric(prices.day$Close), n=120, type="discrete")
+    indicators[all.days==d,]$return.1 <- ROC(as.numeric(prices.day$close), n=1, type="discrete")
+    indicators[all.days==d,]$return.5 <- ROC(as.numeric(prices.day$close), n=5, type="discrete")
+    indicators[all.days==d,]$return.15 <- ROC(as.numeric(prices.day$close), n=15, type="discrete")
+    indicators[all.days==d,]$return.60 <- ROC(as.numeric(prices.day$close), n=60, type="discrete")
+    indicators[all.days==d,]$return.120 <- ROC(as.numeric(prices.day$close), n=120, type="discrete")
   }
   close(pb.ind)
   return(indicators)
