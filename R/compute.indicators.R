@@ -38,14 +38,14 @@ compute.indicators <- function(prices){
     indicators[all.days==d,]$macd.10.120 <-  (as.numeric(MACD(prices.day$close, nfast=10, nSlow=120, nSig=1)[,1])/prices.day$close)
 
     # WPR
-    indicators[all.days==d,]$wpr.10 <- as.numeric(WPR(prices.day[, c("High", "Low", "Close")], n=10))
-    indicators[all.days==d,]$wpr.60 <- as.numeric(WPR(prices.day[, c("High", "Low", "Close")], n=60))
-    indicators[all.days==d,]$wpr.120 <- as.numeric(WPR(prices.day[, c("High", "Low", "Close")], n=120))
+    indicators[all.days==d,]$wpr.10 <- as.numeric(WPR(prices.day[, c("high", "low", "close")], n=10))
+    indicators[all.days==d,]$wpr.60 <- as.numeric(WPR(prices.day[, c("high", "low", "close")], n=60))
+    indicators[all.days==d,]$wpr.120 <- as.numeric(WPR(prices.day[, c("high", "low", "close")], n=120))
 
     #CCI
-    indicators[all.days==d,]$cci.10 <- as.numeric(CCI(prices.day[, c("High", "Low", "Close")], n=10, maType="EMA", c=0.015))
-    indicators[all.days==d,]$cci.60 <- as.numeric(CCI(prices.day[, c("High", "Low", "Close")], n=60, maType="EMA", c=0.015))
-    indicators[all.days==d,]$cci.120 <- as.numeric(CCI(prices.day[, c("High", "Low", "Close")], n=120, maType="EMA", c=0.015))
+    indicators[all.days==d,]$cci.10 <- as.numeric(CCI(prices.day[, c("high", "low", "close")], n=10, maType="EMA", c=0.015))
+    indicators[all.days==d,]$cci.60 <- as.numeric(CCI(prices.day[, c("high", "low", "close")], n=60, maType="EMA", c=0.015))
+    indicators[all.days==d,]$cci.120 <- as.numeric(CCI(prices.day[, c("high", "low", "close")], n=120, maType="EMA", c=0.015))
 
 
     # OBV
