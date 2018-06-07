@@ -13,24 +13,21 @@ combine.forecasts <- function(x, y){
   data <- cbind(y, x)
   data <- data.frame(data)
   colnames(data)<-c("y", colnames(x))
-  prior <- rep(0.5,2)
-  lda.fit <- lda(y~., data=data, prior=prior)
-  probs <- predict(lda.fit, newdata=data.frame(x))$posterior[,2:1]
-  # yhat <- (probs[,1]>=0.5)*2-1; sum(yhat!=y)/length(y)
-  coeffs <- lda.fit$scaling
-  scores <- x %*% matrix(coeffs, ncol=1)
-  plot(scores, probs[,1])
-
-  head(probs)
-
+  # prior <- rep(0.5,2)
+  # lda.fit <- lda(y~., data=data, prior=prior)
+  # probs <- predict(lda.fit, newdata=data.frame(x))$posterior[,2:1]
+  # # yhat <- (probs[,1]>=0.5)*2-1; sum(yhat!=y)/length(y)
+  # coeffs <- lda.fit$scaling
+  # scores <- x %*% matrix(coeffs, ncol=1)
+  # plot(scores, probs[,1])
 }
 
 
-x<- matrix(rnorm(10000*4), ncol=4)
-y <- ((x[,1]+2*x[,2]-x[,3]-4*x[,4])>0)*2-1
-#y <- ((x[,1])>0)*2-1
-colnames(x)<-paste0("model_",1:ncol(x))
-plot(y, x[,1])
-
-head(log(1.657558*x))
-head(probs)
+# x<- matrix(rnorm(10000*4), ncol=4)
+# y <- ((x[,1]+2*x[,2]-x[,3]-4*x[,4])>0)*2-1
+# #y <- ((x[,1])>0)*2-1
+# colnames(x)<-paste0("model_",1:ncol(x))
+# plot(y, x[,1])
+#
+# head(log(1.657558*x))
+# head(probs)
