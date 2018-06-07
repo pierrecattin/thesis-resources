@@ -19,7 +19,7 @@ evaluate.predictions <- function(y, probs, min.prob, check=F){
   if(sum(preds!=0)>0){ # Check that number of predictions > 0
     buy <- which(preds==1)
     sell <- which(preds==-1)
-    accuracy <- (sum(y.dev[sell]==-1)+sum(y.dev[buy]==1))/(length(sell)+length(buy))
+    accuracy <- (sum(y[sell]==-1)+sum(y[buy]==1))/(length(sell)+length(buy))
     freq <- (length(buy)+length(sell))/length(preds)
     sr <- freq.adjusted.accuracy(p=accuracy, q=freq, m=(7.5-2)*60, n)
     return(c(min.prob=min.prob, accuracy=accuracy, freq=freq, sr=sr))
