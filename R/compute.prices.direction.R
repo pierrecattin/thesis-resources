@@ -1,0 +1,41 @@
+#' Compute Price Direction
+#' Computes a variable describing the direction of future price changes
+#'
+#' @param prices xts where one numeric column has to be called "close"
+#' @param daily.start which observation number should be the first one for which the variable is computed each day; numeric
+#' @param horizon prediction horizon; numeric
+#' @param min.return  minimum absolute return in horizon to be classified as -1 or +1; default=0; numeric
+#'
+#' @return xts with one numeric (values -1, 0, +1, NA) column and same indices as prices. last 'horizon' values of each day are NA
+#' @export
+#'
+compute.price.direction <- function (prices, daily.start, horizon, min.return=0){
+  all.days <- as.Date(time(prices))
+  days <- unique(all.days)
+
+  y <- prices$Close
+  colnames(y)<-"movement"
+  y$movement <- NA
+
+  n.obs.daily <- sum(all.days==all.days[1])
+  # d <- days[1]
+  pb.mov <- tkProgressBar(title = "Computing y-Variable", min = 0,
+                          max = length(days), width = 300)
+  for (d in days){
+    day.num <- which(days==d) # only for pb
+    setTkProgressBar(pb.mov, day.num, label=paste0(day.num, "/", length(days), " days computed"))
+    closes <- prices[all.days==d,]$Close
+    if (nrow(closes) != n.obs.daily){
+      warning(paste0("The number of observations on the ", d," is different from the other days. This day will be ignored"))
+    } else{
+      future.closes <- c(rep(NA, daily.start-1),
+                         as.numeric(closes[(daily.start+horizon):nrow(closes),]),
+                         rep(NA, horizon))
+      up <- 1*(future.closes>=closes*(1+min.return))
+      down <- 1*(future.closes<closes*(1-min.return))
+      y$movement[all.days==d,] <- up - down
+    }
+  }
+  close(pb.mov)
+  return(y)
+}
