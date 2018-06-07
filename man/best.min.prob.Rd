@@ -4,19 +4,15 @@
 \alias{best.min.prob}
 \title{Find min.prob threshold maximizing dev SR}
 \usage{
-best.min.prob(y.train, y.dev, train.probs, dev.probs)
+best.min.prob(y.dev, dev.probs)
 }
 \arguments{
-\item{y.train}{: factor with levels -1, 1}
-
 \item{y.dev}{: factor with levels -1, 1}
-
-\item{train.probs}{: matrix with 2 columns: first is probability of up, second is down}
 
 \item{dev.probs}{: matrix with 2 columns: first is probability of up, second is down}
 }
 \value{
-Named numeric containing the results of the best value for min.prop: c(min.prob, train.accuracy, train.freq, train.sr, dev.accuracy, dev.freq, dev.sr
+Named numeric containing the results of the best value for min.prop: c(min.prob, dev.accuracy, dev.freq, dev.sr)
 }
 \description{
 Find min.prob threshold maximizing dev SR
