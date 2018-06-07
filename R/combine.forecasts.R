@@ -1,4 +1,4 @@
-#' Combine FOrecasts (WIP)
+#' Combine Forecasts (WIP)
 #' Combine forecasts of various classifiers into one single forecast
 #'
 #' @param x: matrix where each line is an observation, and each colum contains the probability that the class is "positive "up" estimated by one model. Colnames are the name of the models.
@@ -6,7 +6,6 @@
 #'
 #' @return list containing vector of combined probs and named numerics of coefficients
 #' @export
-#'
 #'
 combine.forecasts <- function(x, y){
   stopifnot(nrow(x) == length(y))
@@ -20,6 +19,7 @@ combine.forecasts <- function(x, y){
   # coeffs <- lda.fit$scaling
   # scores <- x %*% matrix(coeffs, ncol=1)
   # plot(scores, probs[,1])
+  return("hello")
 }
 
 

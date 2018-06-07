@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#' Make training/dev/test test\n#'\n#' Removes incomplete observations and split the time series into distinct sets.\n#'\n#' @param x : xts of features\n#' @param y : xts of true classes\n#' @param training.start : date\n#' @param training.end : date\n#' @param dev.end : date\n#' @param test.end : date. Optional, if missing, no test set is created\n#'\n#' @return list containing x.train, x.dev, (x.test), y.train, y.dev, (y.test)\n#' @export\n#'\nmake.ml.sets <- function(x, y, training.start, training.end, dev.end, test.end){\n  # only keep full observations for y and indicators:\n  # remove first observations each day because indicators cannot be computed,\n  # and last observations because y cannot be computed\n  if(nrow(x)!=length(y))\n    stop(\"x and y don't have the same length\")\n  if (sum(time(y) != time(x))!=0){\n    stop(\"x and y don't have the same time index\")\n  }\n  full.obs <- (rowSums(is.na(x))==0) & (!is.na(y))\n  y.full <- y[full.obs]\n  x.full <- x[full.obs, ]\n\n  # split into training, dev and test\n  if(training.end<training.start)\n    stop(\"training.end<training.start\")\n  if(dev.end<training.end)\n    stop(\"dev.end<training.end\")\n\n  training.index <- time(x.full)>=training.start & time(x.full) <= training.end+1\n  y.full<- factor(y.full$movement)\n  x.train <- x.full[training.index,]\n  y.train <- y.full[training.index]\n\n  dev.index <- time(x.full)>training.end+1 & time(x.full)<=dev.end+1\n  x.dev <- x.full[dev.index,]\n  y.dev <- y.full[dev.index]\n  cat(\"training set has \", nrow(x.train),\"==\", length(y.train), \" observations \\n\")\n  cat(\"dev set has \", nrow(x.dev),\"==\", length(y.dev), \" observations \\n\")\n\n  if(missing(test.end)){\n    return(list(x.train=x.train, x.dev=x.dev, y.train=y.train, y.dev=y.dev))\n  } else{\n    if(test.end<dev.end)\n      stop(\"test.end<dev.end\")\n    test.index <- time(x.full)>test.end+1 & time(x.full)<=test.end+1\n    x.test <- x.full[test.index,]\n    y.test <- y.full[test.index]\n    cat(\"test set has \", nrow(x.train),\"==\", length(y.train), \" observations \\n\")\n    return(list(x.train=x.train, x.dev=x.dev, x.test=x.test, y.train=y.train, y.dev=y.dev, y.test=y.test))\n  }\n}\n",
+    "created" : 1527837564462.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1948959288",
+    "id" : "81DCCD03",
+    "lastKnownWriteTime" : 1527843301,
+    "last_content_update" : 1527843301818,
+    "path" : "C:/Users/catti/Google Drive/Thesis/data_analysis/packages/thesis.resources/R/make.ml.sets.R",
+    "project_path" : "R/make.ml.sets.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

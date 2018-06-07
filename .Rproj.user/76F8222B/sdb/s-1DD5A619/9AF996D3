@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "# Source: http://www.win-vector.com/blog/2016/01/parallel-computing-in-r/\nrm(list=ls()); gc()\ndependencies <- c(\"parallel\",\n                  \"foreach\",\n                  \"doParallel\",\n                  \"rbenchmark\"\n)\nto.install <- dependencies[!(dependencies %in% installed.packages()[,\"Package\"])]\nif(length(to.install)>0) install.packages(to.install)\nlapply(dependencies, require, character.only = TRUE)\nrm(dependencies, to.install)\n\n\n\nd <- iris # let \"d\" refer to one of R's built in data sets\nvars <- c('Sepal.Length','Sepal.Width','Petal.Length')\nyName <- 'Species'\nyLevels <- sort(unique(as.character(d[[yName]])))\nprint(yLevels)\n\n#yLevel <- yLevels[1]\nfitOneTargetModel <- function(yName,yLevel,vars,data) {\n  formula <- paste('(',yName,'==\"',yLevel,'\") ~ ',\n                   paste(vars,collapse=' + '),sep='')\n  glm(as.formula(formula),family=binomial,data=data)\n}\n\n#### for ####\nfor(yLevel in yLevels) {\n  print(\"*****\")\n  print(yLevel)\n  print(fitOneTargetModel(yName,yLevel,vars,d))\n}\n\n#### lapply ####\nworker <- function(yLevel) {\n  fitOneTargetModel(yName,yLevel,vars,d)\n}\nmodels <- lapply(yLevels,worker)\nnames(models) <- yLevels\nprint(models)\n\n#### parLapply ####\nparallelCluster <- parallel::makeCluster(parallel::detectCores())\ntryCatch(\n  models <- parallel::parLapply(parallelCluster,\n                                yLevels,worker),\n  error = function(e) print(e)\n)\n",
+    "created" : 1528297011286.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1772498922",
+    "id" : "9AF996D3",
+    "lastKnownWriteTime" : 1524668145,
+    "last_content_update" : 1524668145,
+    "path" : "C:/Users/catti/Google Drive/various_scripts/r_parallel/parallel_training.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

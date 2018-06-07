@@ -13,7 +13,7 @@ compute.price.direction <- function (prices, daily.start, horizon, min.return=0)
   all.days <- as.Date(time(prices))
   days <- unique(all.days)
 
-  y <- prices$Close
+  y <- prices$close
   colnames(y)<-"movement"
   y$movement <- NA
 
@@ -24,7 +24,7 @@ compute.price.direction <- function (prices, daily.start, horizon, min.return=0)
   for (d in days){
     day.num <- which(days==d) # only for pb
     setTkProgressBar(pb.mov, day.num, label=paste0(day.num, "/", length(days), " days computed"))
-    closes <- prices[all.days==d,]$Close
+    closes <- prices[all.days==d,]$close
     if (nrow(closes) != n.obs.daily){
       warning(paste0("The number of observations on the ", d," is different from the other days. This day will be ignored"))
     } else{

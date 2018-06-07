@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' Compute Indicators\n#' Computes technical indicators based on OLHCV prices series\n#'\n#' @param prices OLHCV prices series; xts\n#'\n#' @return xts with one column per technical indicator. Index is same as index of prices.\n#' @export\n#'\ncompute.indicators <- function(prices){\n\n  all.days <- as.Date(time(prices))\n  days <- unique(all.days)\n\n  indicators.cols <- c(\"rsi.10\", \"rsi.60\", \"rsi.120\",\n                       \"macd.1.12\", \"macd.5.60\", \"macd.10.120\",\n                       \"obv\",\n                       \"wpr.10\", \"wpr.60\", \"wpr.120\",\n                       \"cci.10\", \"cci.60\", \"cci.120\",\n                       \"return.1\", \"return.5\", \"return.15\", \"return.60\", \"return.120\")\n  indicators <- matrix(NA, ncol=length(indicators.cols), nrow=nrow(prices))\n  colnames(indicators)<- indicators.cols\n  indicators <- as.xts(indicators, order.by=time(prices))\n  # d <- days[1]\n  pb.ind <- tkProgressBar(title = \"Computing Indicators\", min = 0,\n                          max = length(days), width = 300)\n  for (d in days){\n    day.num <- which(days==d) # only for pb\n    setTkProgressBar(pb.ind, day.num, label=paste0(day.num, \"/\", length(days), \" days computed\"))\n    prices.day <- prices[all.days==d,]\n    #RSI\n    indicators[all.days==d,]$rsi.10 <- as.numeric(RSI(prices.day$close, 10))\n    indicators[all.days==d,]$rsi.60  <- as.numeric(RSI(prices.day$close, 60))\n    indicators[all.days==d,]$rsi.120 <- as.numeric(RSI(prices.day$close, 120))\n\n    # MACD\n    indicators[all.days==d,]$macd.1.12 <-  as.numeric(MACD(prices.day$close, nfast=1, nSlow=10, nSig=1)[,1])/prices.day$close\n    indicators[all.days==d,]$macd.5.60 <-  (as.numeric(MACD(prices.day$close, nfast=5, nSlow=60, nSig=1)[,1])/prices.day$close)\n    indicators[all.days==d,]$macd.10.120 <-  (as.numeric(MACD(prices.day$close, nfast=10, nSlow=120, nSig=1)[,1])/prices.day$close)\n\n    # WPR\n    indicators[all.days==d,]$wpr.10 <- as.numeric(WPR(prices.day[, c(\"high\", \"low\", \"close\")], n=10))\n    indicators[all.days==d,]$wpr.60 <- as.numeric(WPR(prices.day[, c(\"high\", \"low\", \"close\")], n=60))\n    indicators[all.days==d,]$wpr.120 <- as.numeric(WPR(prices.day[, c(\"high\", \"low\", \"close\")], n=120))\n\n    #CCI\n    indicators[all.days==d,]$cci.10 <- as.numeric(CCI(prices.day[, c(\"high\", \"low\", \"close\")], n=10, maType=\"EMA\", c=0.015))\n    indicators[all.days==d,]$cci.60 <- as.numeric(CCI(prices.day[, c(\"high\", \"low\", \"close\")], n=60, maType=\"EMA\", c=0.015))\n    indicators[all.days==d,]$cci.120 <- as.numeric(CCI(prices.day[, c(\"high\", \"low\", \"close\")], n=120, maType=\"EMA\", c=0.015))\n\n\n    # OBV\n    indicators[all.days==d,]$obv <- as.numeric(OBV(prices.day$close, prices.day$volume))\n\n\n    # returns\n    indicators[all.days==d,]$return.1 <- ROC(as.numeric(prices.day$close), n=1, type=\"discrete\")\n    indicators[all.days==d,]$return.5 <- ROC(as.numeric(prices.day$close), n=5, type=\"discrete\")\n    indicators[all.days==d,]$return.15 <- ROC(as.numeric(prices.day$close), n=15, type=\"discrete\")\n    indicators[all.days==d,]$return.60 <- ROC(as.numeric(prices.day$close), n=60, type=\"discrete\")\n    indicators[all.days==d,]$return.120 <- ROC(as.numeric(prices.day$close), n=120, type=\"discrete\")\n  }\n  close(pb.ind)\n  return(indicators)\n}\n",
+    "created" : 1528375142244.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3571595743",
+    "id" : "6257DEEA",
+    "lastKnownWriteTime" : 1528375682,
+    "last_content_update" : 1528375682560,
+    "path" : "C:/Users/catti/Google Drive/Thesis/data_analysis/packages/thesis.resources/R/compute.indicators.R",
+    "project_path" : "R/compute.indicators.R",
+    "properties" : {
+    },
+    "relative_order" : 11,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
