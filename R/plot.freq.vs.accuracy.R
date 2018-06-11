@@ -24,6 +24,8 @@ plot.freq.vs.accuracy <- function (y, probs, conf, stock="stock", set="dev"){
     data[which(min.prob.seq==min.prob), c("Accuracy", "Frequency")] <- results[c("accuracy", "freq")]
   }
   data <- data[!is.na(data$Accuracy), ]
+  n.small <- nrow(probs) * data$Frequency * data$Accuracy < 5 | nrow(probs) * data$Frequency * (1-data$Accuracy) < 5
+  data <- data[!n.small, ] # remove
 
   plot <- ggplot(data=data, aes(x=Frequency, y=Accuracy)) +
     geom_line(aes(color=min.prob))  +
