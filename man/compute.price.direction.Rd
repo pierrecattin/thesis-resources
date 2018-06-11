@@ -5,7 +5,8 @@
 \title{Compute Price Direction
 Computes a variable describing the direction of future price changes}
 \usage{
-compute.price.direction(prices, daily.start, horizon, min.return = 0)
+compute.price.direction(prices, daily.start, horizon, min.return = 0,
+  loading = T)
 }
 \arguments{
 \item{prices}{xts where one numeric column has to be called "close"}
@@ -15,6 +16,8 @@ compute.price.direction(prices, daily.start, horizon, min.return = 0)
 \item{horizon}{prediction horizon; numeric}
 
 \item{min.return}{minimum absolute return in horizon to be classified as -1 or +1; default=0; numeric}
+
+\item{loading}{logical telling if loading bar should be displayed}
 }
 \value{
 xts with one numeric (values -1, 0, +1, NA) column and same indices as prices. last 'horizon' values of each day are NA

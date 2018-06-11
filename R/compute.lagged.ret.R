@@ -2,11 +2,13 @@
 #' Compute lagged return each day up to a specified lag
 #'
 #' @param prices OLHCV prices series; xts
+#' @param max.lag indicates how far back lagged returns should be computed
+#' @param loading logical telling if loading bar should be displayed
 #'
 #' @return xts with one column per lag. Index is same as index of prices.
 #' @export
 #'
-compute.lagged.ret <- function(prices, max.lag=120){
+compute.lagged.ret <- function(prices, max.lag=120, loading=T){
 
   all.days <- as.Date(time(prices))
   days <- unique(all.days)
@@ -15,12 +17,15 @@ compute.lagged.ret <- function(prices, max.lag=120){
   colnames(lagged.ret)<- paste0("lag ", 1:max.lag)
   lagged.ret <- as.xts(lagged.ret, order.by=time(prices))
   # d <- days[1]
-  pb.ind <- tkProgressBar(title = "Computing lagged returns", min = 0,
+  if (loading)
+    pb.ind <- tkProgressBar(title = "Computing lagged returns", min = 0,
                           max = length(days), width = 300)
   d <- days[1]
   for (d in days){
-    day.num <- which(days==d) # only for pb
-    setTkProgressBar(pb.ind, day.num, label=paste0(day.num, "/", length(days), " days computed"))
+    if (loading) {
+      day.num <- which(days==d) # only for pb
+      setTkProgressBar(pb.ind, day.num, label=paste0(day.num, "/", length(days), " days computed"))
+    }
     closes <- as.numeric(prices[all.days==d,"close"])
 
     apply.fun <- function(n){
@@ -28,6 +33,8 @@ compute.lagged.ret <- function(prices, max.lag=120){
     }
     lagged.ret[all.days==d, ] <- sapply(X=1:max.lag, FUN=apply.fun)
   }
-  close(pb.ind)
+  if (loading)
+    close(pb.ind)
+
   return(lagged.ret)
 }

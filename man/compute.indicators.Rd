@@ -5,10 +5,12 @@
 \title{Compute Indicators
 Computes technical indicators based on OLHCV prices series}
 \usage{
-compute.indicators(prices)
+compute.indicators(prices, loading = T)
 }
 \arguments{
 \item{prices}{OLHCV prices series; xts}
+
+\item{loading}{logical telling if loading bar should be displayed}
 }
 \value{
 xts with one column per technical indicator. Index is same as index of prices.

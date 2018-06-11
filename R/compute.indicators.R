@@ -2,11 +2,12 @@
 #' Computes technical indicators based on OLHCV prices series
 #'
 #' @param prices OLHCV prices series; xts
+#' @param loading logical telling if loading bar should be displayed
 #'
 #' @return xts with one column per technical indicator. Index is same as index of prices.
 #' @export
 #'
-compute.indicators <- function(prices){
+compute.indicators <- function(prices, loading=T){
 
   all.days <- as.Date(time(prices))
   days <- unique(all.days)
@@ -21,11 +22,13 @@ compute.indicators <- function(prices){
   colnames(indicators)<- indicators.cols
   indicators <- as.xts(indicators, order.by=time(prices))
   # d <- days[1]
-  pb.ind <- tkProgressBar(title = "Computing Indicators", min = 0,
+  if (loading)
+    pb.ind <- tkProgressBar(title = "Computing Indicators", min = 0,
                           max = length(days), width = 300)
   for (d in days){
     day.num <- which(days==d) # only for pb
-    setTkProgressBar(pb.ind, day.num, label=paste0(day.num, "/", length(days), " days computed"))
+    if (loading)
+      setTkProgressBar(pb.ind, day.num, label=paste0(day.num, "/", length(days), " days computed"))
     prices.day <- prices[all.days==d,]
     #RSI
     indicators[all.days==d,]$rsi.10 <- as.numeric(RSI(prices.day$close, 10))
@@ -59,6 +62,7 @@ compute.indicators <- function(prices){
     indicators[all.days==d,]$return.60 <- ROC(as.numeric(prices.day$close), n=60, type="discrete")
     indicators[all.days==d,]$return.120 <- ROC(as.numeric(prices.day$close), n=120, type="discrete")
   }
-  close(pb.ind)
+  if (loading)
+    close(pb.ind)
   return(indicators)
 }

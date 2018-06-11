@@ -5,11 +5,12 @@
 #' @param daily.start which observation number should be the first one for which the variable is computed each day; numeric
 #' @param horizon prediction horizon; numeric
 #' @param min.return  minimum absolute return in horizon to be classified as -1 or +1; default=0; numeric
+#' @param loading logical telling if loading bar should be displayed
 #'
 #' @return xts with one numeric (values -1, 0, +1, NA) column and same indices as prices. last 'horizon' values of each day are NA
 #' @export
 #'
-compute.price.direction <- function (prices, daily.start, horizon, min.return=0){
+compute.price.direction <- function (prices, daily.start, horizon, min.return=0, loading=T){
   all.days <- as.Date(time(prices))
   days <- unique(all.days)
 
@@ -19,11 +20,14 @@ compute.price.direction <- function (prices, daily.start, horizon, min.return=0)
 
   n.obs.daily <- sum(all.days==all.days[1])
   # d <- days[1]
-  pb.mov <- tkProgressBar(title = "Computing y-Variable", min = 0,
+  if (loading)
+    pb.mov <- tkProgressBar(title = "Computing y-Variable", min = 0,
                           max = length(days), width = 300)
   for (d in days){
-    day.num <- which(days==d) # only for pb
-    setTkProgressBar(pb.mov, day.num, label=paste0(day.num, "/", length(days), " days computed"))
+    if (loading) {
+      day.num <- which(days==d) # only for pb
+      setTkProgressBar(pb.mov, day.num, label=paste0(day.num, "/", length(days), " days computed"))
+    }
     closes <- prices[all.days==d,]$close
     if (nrow(closes) != n.obs.daily){
       warning(paste0("The number of observations on the ", d," is different from the other days. This day will be ignored"))
@@ -36,6 +40,7 @@ compute.price.direction <- function (prices, daily.start, horizon, min.return=0)
       y$movement[all.days==d,] <- up - down
     }
   }
-  close(pb.mov)
+  if (loading)
+    close(pb.mov)
   return(y)
 }
