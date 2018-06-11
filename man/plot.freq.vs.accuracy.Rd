@@ -4,8 +4,7 @@
 \alias{plot.freq.vs.accuracy}
 \title{Plot frequency vs accuracy of prediction}
 \usage{
-\method{plot}{freq.vs.accuracy}(y, probs, conf, stock = "stock",
-  set = "dev")
+\method{plot}{freq.vs.accuracy}(y, probs, conf, stock = "stock", horizon)
 }
 \arguments{
 \item{y}{: factor with levels -1, 1}
@@ -16,7 +15,7 @@
 
 \item{stock:}{character (used for title)}
 
-\item{set:}{character (used for title)}
+\item{horizon:}{character or numeric (used for title)}
 }
 \value{
 Named numeric containing the results of the best value for min.prop: c(min.prob, dev.accuracy, dev.freq, dev.sr)
