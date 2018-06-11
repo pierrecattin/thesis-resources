@@ -2,17 +2,16 @@
 #'
 #' @param p Sample proportion; numeric
 #' @param n Number of observations; numeric
-#' @param alpha Unilateral probability of being outside of the bound; numeric
-#' @param lower Lower or upper bound; logi
+#' @param conf: confidence level within the bounds
 #'
-#' @return value of the bound (numeric)
+#' @return dataframe with values of both bounds of each element
 #' @export
 #'
-#' @examples confidence.bound(0.65, 110, 0.05, T)
-confidence.bound <- function(p, n, alpha=0.05, lower=T){
-  # p : achieved accuracy
-  # n: numer of trades
-  # alpha: unilateral prob of being outside
-  # lower:
-  return(p-(sqrt(p*(1-p)/n)*qnorm(alpha))*(1-2*lower)) # (1-alpha)*100 % (unilateral) bound on true accuracy
+#' @examples confidence.bound(c(0.7, 0.8), c(100000, 500), 0.95)
+confidence.bound <- function(p, n, conf=0.95){
+  stopifnot(length(p)==length(n))
+  distance <- -sqrt(p*(1-p)/n)*qnorm((1-conf)/2)
+  bounds <- data.frame(lower=p-distance, upper=p+distance)
+  return(bounds)
 }
+confidence.bound(c(0.7, 0.8), c(1000, 500), 0.95)

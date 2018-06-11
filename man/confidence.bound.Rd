@@ -4,23 +4,21 @@
 \alias{confidence.bound}
 \title{Confidence Bound}
 \usage{
-confidence.bound(p, n, alpha = 0.05, lower = T)
+confidence.bound(p, n, conf = 0.95)
 }
 \arguments{
 \item{p}{Sample proportion; numeric}
 
 \item{n}{Number of observations; numeric}
 
-\item{alpha}{Unilateral probability of being outside of the bound; numeric}
-
-\item{lower}{Lower or upper bound; logi}
+\item{conf:}{confidence level within the bounds}
 }
 \value{
-value of the bound (numeric)
+dataframe with values of both bounds of each element
 }
 \description{
 Confidence Bound
 }
 \examples{
-confidence.bound(0.65, 110, 0.05, T)
+confidence.bound(c(0.7, 0.8), c(100000, 500), 0.95)
 }
