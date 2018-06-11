@@ -27,7 +27,7 @@ plot.freq.vs.accuracy <- function (y, probs, conf, stock="stock", horizon){
   n.small <- nrow(probs) * data$Frequency * data$Accuracy < 5 | nrow(probs) * data$Frequency * (1-data$Accuracy) < 5
   data <- data[!n.small, ] # remove datapoints with little observations
 
-  plot <- ggplot(data=data, aes(x=Frequency, y=Accuracy)) +
+  my.plot <- ggplot(data=data, aes(x=Frequency, y=Accuracy)) +
     geom_line(aes(color=min.prob))  +
     ggtitle(paste0("Accuracy vs frequency of preditions - ", stock,", ", horizon, "min horizon")) +
     scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
@@ -39,10 +39,10 @@ plot.freq.vs.accuracy <- function (y, probs, conf, stock="stock", horizon){
   if(!missing(conf)){
     bounds <- confidence.bound(p=data$Accuracy, n=nrow(probs)*data$Frequency)
     data <- cbind(data, bounds)
-    plot <- plot + geom_ribbon(data=data, aes(ymin=lower,ymax=upper, x=Frequency, fill = "darkred"), alpha=0.1) +
+    my.plot <- my.plot + geom_ribbon(data=data, aes(ymin=lower,ymax=upper, x=Frequency, fill = "darkred"), alpha=0.1) +
       scale_fill_manual( "", labels = paste0(conf*100,"% confidence intervall"), values=c("darkred"="darkred"))
   }
-  plot
+  return(my.plot)
 }
 
 # y <- y.dev
