@@ -6,8 +6,8 @@
 #' @param stock: character (used for title)
 #' @param horizon: character or numeric (used for title)
 #'
-#' @return Named numeric containing the results of the best value for min.prop: c(min.prob, dev.accuracy, dev.freq, dev.sr)
-#' @export
+#' @return ggplot
+#' @export plot.freq.vs.accuracy
 #'
 plot.freq.vs.accuracy <- function (y, probs, conf, stock="stock", horizon){
   stopifnot(ncol(probs)==2)
@@ -42,7 +42,7 @@ plot.freq.vs.accuracy <- function (y, probs, conf, stock="stock", horizon){
     plot <- plot + geom_ribbon(data=data, aes(ymin=lower,ymax=upper, x=Frequency, fill = "darkred"), alpha=0.1) +
       scale_fill_manual( "", labels = paste0(conf*100,"% confidence intervall"), values=c("darkred"="darkred"))
   }
-  return(plot)
+  plot
 }
 
 # y <- y.dev

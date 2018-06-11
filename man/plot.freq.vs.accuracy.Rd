@@ -18,7 +18,7 @@
 \item{horizon:}{character or numeric (used for title)}
 }
 \value{
-Named numeric containing the results of the best value for min.prop: c(min.prob, dev.accuracy, dev.freq, dev.sr)
+ggplot
 }
 \description{
 Plot frequency vs accuracy of prediction
