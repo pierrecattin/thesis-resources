@@ -15,7 +15,7 @@ evaluate.predictions <- function(y, probs, min.prob, check=F){
     stopifnot(all.equal(levels(y), c("-1","1")))
   }
 
-  preds <- 1*((probs[,1]>min.prob) - (probs[,2]>min.prob))
+  preds <- 1*((probs[,1]>=min.prob) - (probs[,2]>min.prob))
   if(sum(preds!=0)>0){ # Check that number of predictions > 0
     buy <- which(preds==1)
     sell <- which(preds==-1)
