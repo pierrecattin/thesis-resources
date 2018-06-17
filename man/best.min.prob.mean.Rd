@@ -7,7 +7,7 @@
 best.min.prob.mean(y, probs, n)
 }
 \arguments{
-\item{y}{numeric, 1 if up, 0 if down}
+\item{y}{numeric/factor, 1 if up, -1 if down}
 
 \item{probs}{numeric, probability of up}
 

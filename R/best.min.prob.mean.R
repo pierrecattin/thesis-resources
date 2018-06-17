@@ -1,6 +1,6 @@
 #' Find mean expected SR over min probs
 #'
-#' @param y  numeric, 1 if up, 0 if down
+#' @param y  numeric/factor, 1 if up, -1 if down
 #' @param probs numeric, probability of up
 #' @param n number of stocks
 #'
