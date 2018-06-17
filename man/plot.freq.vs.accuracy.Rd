@@ -4,18 +4,23 @@
 \alias{plot.freq.vs.accuracy}
 \title{Plot frequency vs accuracy of prediction}
 \usage{
-\method{plot}{freq.vs.accuracy}(y, probs, conf, stock = "stock", horizon)
+\method{plot}{freq.vs.accuracy}(y, probs, conf, stock = "stock", horizon, set,
+  n)
 }
 \arguments{
-\item{y}{: factor with levels -1, 1}
+\item{y}{factor with levels -1, 1}
 
-\item{probs}{: matrix with 2 columns: first is probability of up, second is down}
+\item{probs}{numeric indicating probability of up}
 
-\item{conf:}{numeric indicating if confidence intervall to be plotted (if missing, no intervall is plotted)}
+\item{conf}{numeric indicating if confidence intervall to be plotted (if missing, no intervall is plotted)}
 
-\item{stock:}{character (used for title)}
+\item{stock}{character (used for title)}
 
-\item{horizon:}{character or numeric (used for title)}
+\item{horizon}{character or numeric (used for title)}
+
+\item{set}{character (used for title)}
+
+\item{n}{number of stocks}
 }
 \value{
 ggplot
