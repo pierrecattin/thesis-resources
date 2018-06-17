@@ -9,7 +9,7 @@
 #' @param activations activation functions used in hidden layer: c("relu", "tanh", ...). For the output layer, softmax is used
 #' @param structure numeric vector indicating number of nodes in each hidden layer
 #' @param l2 l2 regularisation value
-#' @param learning.rate
+#' @param learning.rate learning rate
 #' @param tb.log character inidicating run name for tensorflow. if missing, tensorboard is not ran
 #'
 #' @return fit
