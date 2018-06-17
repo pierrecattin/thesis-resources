@@ -20,7 +20,7 @@ make.ml.sets(x, y, training.start, training.end, dev.end, test.end)
 \item{test.end}{: date. Optional, if missing, no test set is created}
 }
 \value{
-list containing x.train, x.dev, (x.test), y.train, y.dev, (y.test)
+list containing x.train(xts), x.dev(xts), (x.test(xts)), y.train(factor), y.dev(factor), (y.test(factor))
 }
 \description{
 Removes incomplete observations and split the time series into distinct sets.
