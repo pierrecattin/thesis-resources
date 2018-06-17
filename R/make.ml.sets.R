@@ -32,7 +32,8 @@ make.ml.sets <- function(x, y, training.start, training.end, dev.end, test.end){
   stopifnot(training.end>training.start)
   stopifnot(dev.end>training.end)
 
-  days <- date(time(x.full))
+  library(lubridate)
+  days <- lubridate::date(time(x.full))
 
   training.index <- days>=training.start & days <= training.end
   dev.index <- days>training.end & days <= dev.end
