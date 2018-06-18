@@ -9,7 +9,7 @@ evaluate.predictions(y, probs, min.prob, n, check = F)
 \arguments{
 \item{y}{: numeric/factor, 1 if up, -1 if down}
 
-\item{probs}{: numeric probability of up, second is down}
+\item{probs}{: numeric probability of up}
 
 \item{n}{number of stocks}
 

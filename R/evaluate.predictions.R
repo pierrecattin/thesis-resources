@@ -1,7 +1,7 @@
 #' Evaluate predictions performance against true label
 #'
 #' @param y : numeric/factor, 1 if up, -1 if down
-#' @param probs : numeric probability of up, second is down
+#' @param probs : numeric probability of up
 #' @param min.prob: numeric indicating minimum confidence required to make a prediction
 #' @param check: logical indicating if dimension checks should be performed
 #' @param n number of stocks
