@@ -1,9 +1,10 @@
-#' Deprecated: Find min.prob threshold maximizing dev SR
+#' Find min.prob threshold maximizing dev SR
 #'
 #' @param y.dev  : factor with levels -1, 1
 #' @param dev.probs : matrix with 2 columns: first is probability of up, second is down
 #'
 #' @return Named numeric containing the results of the best value for min.prop: c(min.prob, dev.accuracy, dev.freq, dev.sr)
+#' @export
 #'
 best.min.prob <- function(y.dev, dev.probs){
   stopifnot(ncol(dev.probs)==2)

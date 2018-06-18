@@ -14,7 +14,7 @@ best.min.prob.mean(y, probs, n)
 \item{n}{number of stocks}
 }
 \value{
-Named numeric containing the results of the best value for min.prob, as well as the mean sr, mean accuracy across min probs: c(min.prob, accuracy, freq, sr, mean.sr, mean.accuracy)
+Named numeric containing the results of the best value for min.prop, as well as the mean sr across min probs: c(min.prob, accuracy, freq, sr, mean.sr)
 }
 \description{
 Find mean expected SR over min probs
