@@ -4,12 +4,14 @@
 \alias{evaluate.predictions}
 \title{Evaluate predictions performance against true label}
 \usage{
-evaluate.predictions(y, probs, min.prob, check = F)
+evaluate.predictions(y, probs, min.prob, n, check = F)
 }
 \arguments{
-\item{y}{: factor with levels -1, 1}
+\item{y}{: numeric/factor, 1 if up, -1 if down}
 
-\item{probs}{: matrix with 2 columns: first is probability of up, second is down}
+\item{probs}{: numeric probability of up, second is down}
+
+\item{n}{number of stocks}
 
 \item{min.prob:}{numeric indicating minimum confidence required to make a prediction}
 

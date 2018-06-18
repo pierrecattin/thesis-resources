@@ -1,4 +1,4 @@
-#' Compute performance metrics over all min probs
+#' Find mean expected SR over min probs
 #'
 #' @param y  numeric/factor, 1 if up, -1 if down
 #' @param probs numeric, probability of up
@@ -7,7 +7,7 @@
 #' @return Named numeric containing the results of the best value for min.prop, as well as the mean sr across min probs: c(min.prob, accuracy, freq, sr, mean.sr)
 #' @export
 #'
-evaluate.model <- function(y, probs, n){
+best.min.prob.mean <- function(y, probs, n){
   stopifnot(length(y)==length(probs))
 
   min.prob.seq <- seq(0.5, 1, 0.01)

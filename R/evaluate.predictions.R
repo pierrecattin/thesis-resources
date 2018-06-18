@@ -1,21 +1,20 @@
 #' Evaluate predictions performance against true label
 #'
-#' @param y  : factor with levels -1, 1
-#' @param probs : matrix with 2 columns: first is probability of up, second is down
+#' @param y : numeric/factor, 1 if up, -1 if down
+#' @param probs : numeric probability of up, second is down
 #' @param min.prob: numeric indicating minimum confidence required to make a prediction
 #' @param check: logical indicating if dimension checks should be performed
+#' @param n number of stocks
 #'
 #' @return Named numeric containing c(min.prob, accuracy, freq, sr), or "no predictions" if min.prob is too high
 #' @export
 #'
-evaluate.predictions <- function(y, probs, min.prob, check=F){
+evaluate.predictions <- function(y, probs, min.prob, n, check=F){
   if(check){
-    stopifnot(ncol(probs)==2)
-    stopifnot(length(y)==nrow(probs))
-    stopifnot(all.equal(levels(y), c("-1","1")))
+    stopifnot(length(y)==length(probs))
   }
 
-  preds <- 1*((probs[,1]>=min.prob) - (probs[,2]>min.prob))
+  preds <- 1*(probs>=min.prob) - 1*(probs<(1-min.prob))
   if(sum(preds!=0)>0){ # Check that number of predictions > 0
     buy <- which(preds==1)
     sell <- which(preds==-1)
