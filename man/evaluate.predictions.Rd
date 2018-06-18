@@ -2,7 +2,7 @@
 % Please edit documentation in R/evaluate.predictions.R
 \name{evaluate.predictions}
 \alias{evaluate.predictions}
-\title{Evaluate predictions performance against true label}
+\title{Deprecated: Evaluate predictions performance against true label}
 \usage{
 evaluate.predictions(y, probs, min.prob, check = F)
 }
@@ -19,5 +19,5 @@ evaluate.predictions(y, probs, min.prob, check = F)
 Named numeric containing c(min.prob, accuracy, freq, sr), or "no predictions" if min.prob is too high
 }
 \description{
-Evaluate predictions performance against true label
+Deprecated: Evaluate predictions performance against true label
 }

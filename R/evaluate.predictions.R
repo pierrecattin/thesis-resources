@@ -1,4 +1,4 @@
-#' Evaluate predictions performance against true label
+#' Deprecated: Evaluate predictions performance against true label
 #'
 #' @param y  : factor with levels -1, 1
 #' @param probs : matrix with 2 columns: first is probability of up, second is down
@@ -6,7 +6,6 @@
 #' @param check: logical indicating if dimension checks should be performed
 #'
 #' @return Named numeric containing c(min.prob, accuracy, freq, sr), or "no predictions" if min.prob is too high
-#' @export
 #'
 evaluate.predictions <- function(y, probs, min.prob, check=F){
   if(check){

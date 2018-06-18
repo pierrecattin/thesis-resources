@@ -2,7 +2,7 @@
 % Please edit documentation in R/best.min.prob.R
 \name{best.min.prob}
 \alias{best.min.prob}
-\title{Find min.prob threshold maximizing dev SR}
+\title{Deprecated: Find min.prob threshold maximizing dev SR}
 \usage{
 best.min.prob(y.dev, dev.probs)
 }
@@ -15,5 +15,5 @@ best.min.prob(y.dev, dev.probs)
 Named numeric containing the results of the best value for min.prop: c(min.prob, dev.accuracy, dev.freq, dev.sr)
 }
 \description{
-Find min.prob threshold maximizing dev SR
+Deprecated: Find min.prob threshold maximizing dev SR
 }
