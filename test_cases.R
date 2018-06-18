@@ -2,9 +2,9 @@ source("R/evaluate.model.R")
 source("R/evaluate.predictions.R")
 source("R/freq.adjusted.accuracy.R")
 
-L <- 1000
+L <- 10000
 probs <- runif(L)
-y <- 1*((probs+rnorm(L)/3)>0.5)
+y <- 1*((probs+rnorm(L)/3)>0.5)*2-1
 n <- 8
 
 evaluate.model(y, probs, n)

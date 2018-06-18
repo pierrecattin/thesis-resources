@@ -12,18 +12,20 @@ evaluate.model <- function(y, probs, n){
 
   min.prob.seq <- seq(0.5, 1, 0.01)
   sr <- rep(NA, length(min.prob.seq))
+  accuracy <- rep(NA, length(min.prob.seq))
   max.sr <- -99
   for(min.prob in min.prob.seq){
-    results <- evaluate.predictions(y, probs, min.prob, n)
-    if(results[1]=="no predictions") { # if no predictions are made, break the loop
+    iter.metrics <- evaluate.predictions(y, probs, min.prob, n)
+    if(iter.metrics[1]=="no predictions") { # if no predictions are made, break the loop
       break
     }
-    sr[which(min.prob.seq==min.prob)] <- results["sr"]
-    if(results["sr"]>max.sr){ # if the parameter is the best so far, save the results
-      max.sr <- results["sr"]
-      best.results <- results
+    sr[which(min.prob.seq==min.prob)] <- iter.metrics["sr"]
+    accuracy[which(min.prob.seq==min.prob)] <- iter.metrics["accuracy"]
+    if(iter.metrics["sr"]>max.sr){ # if the parameter is the best so far, save the results
+      max.sr <- iter.metrics["sr"]
+      performance <- iter.metrics
     }
   }
-  best.results <- c(best.results, mean.sr=mean(sr, na.rm=T))
-  return(best.results)
+  performance <- c(performance, mean.sr=mean(sr, na.rm=T), mean.accuracy=mean(accuracy, na.rm=T))
+  return(performance)
 }
