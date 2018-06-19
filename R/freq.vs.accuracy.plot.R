@@ -8,9 +8,9 @@
 #' @param legend logical indicating if y legend should be displayed
 #'
 #' @return ggplot
-#' @export plot.freq.vs.accuracy
+#' @export
 #'
-plot.freq.vs.accuracy <- function (y, probs, conf, set, ytitle=T, legend=T){
+freq.vs.accuracy.plot <- function (y, probs, conf, set, ytitle=T, legend=T){
   stopifnot(length(y)==length(probs))
 
   min.prob.seq <- seq(0.5, 1, 0.025)

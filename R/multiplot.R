@@ -7,7 +7,7 @@
 #' @param layout If the layout is something like matrix(c(1,2,3,3), nrow=2, byrow=TRUE), then plot 1 will go in the upper left, 2 will go in the upper right, and 3 will go all the way across the bottom.
 #' @param title main title
 #'
-#' @return ggplot
+#' @return returns nothing but prints the plot
 #' @export
 #'
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL, title="") {

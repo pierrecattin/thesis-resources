@@ -20,7 +20,7 @@ multiplot(..., plotlist = NULL, file, cols = 1, layout = NULL,
 \item{title}{main title}
 }
 \value{
-ggplot
+returns nothing but prints the plot
 }
 \description{
 Multiple plot function
