@@ -24,4 +24,5 @@ plot.freq.vs.accuracy.multiple <- function (y.train, train.probs,
 
   my.plot <- multiplot(plotlist = plots, cols=3,
     title=paste0("Frequency-Accuracy Tradeoff - ", stock, ", ",horizon, "min"))
+  return("done")
 }
