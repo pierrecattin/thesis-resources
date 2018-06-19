@@ -27,7 +27,7 @@ freq.vs.accuracy.multiplot(y.train, train.probs, y.dev, dev.probs, y.test,
 \item{horizon}{horizon in minutes for title}
 }
 \value{
-returns nothing but prints the plot
+prints the plot
 }
 \description{
 Frequency vs accuracy of prediction for all 3 samples

@@ -10,7 +10,7 @@
 #' @param stock stock name for title
 #' @param horizon horizon in minutes for title
 #'
-#' @return returns nothing but prints the plot
+#' @return prints the plot
 #' @export
 #'
 freq.vs.accuracy.multiplot <- function (y.train, train.probs,
@@ -24,5 +24,5 @@ freq.vs.accuracy.multiplot <- function (y.train, train.probs,
 
   multiplot(plotlist = plots, cols=3,
    title=paste0("Frequency-Accuracy Tradeoff - ", stock, ", ",horizon, "min"))
-
+  return("printed")
 }
