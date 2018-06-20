@@ -1,5 +1,8 @@
+rm(list=ls())
 library(ggplot2)
 library(grid)
+library(tensorflow)
+library(keras)
 source("R/evaluate.model.R")
 source("R/evaluate.predictions.R")
 source("R/freq.adjusted.accuracy.R")
@@ -9,6 +12,7 @@ source("R/freq.vs.accuracy.multiplot.R")
 source("R/multiplot.R")
 source("R/metric.exp.sr.R")
 source("R/metric.mean.accuracy.R")
+source("R/train.nn.R")
 
 #### Evaluate model and preds ####
 L <- 10000
@@ -34,7 +38,6 @@ freq.vs.accuracy.multiplot(y.train, train.probs,
                                conf, stock, horizon)
 
 #### TF metrics ####
-library(tensorflow)
 # create data
 L <- 2000
 probs <- runif(L)
@@ -55,3 +58,26 @@ sess$close()
 
 # check
 evaluate.model(y*2-1, probs, n)
+
+
+#### train.nn ####
+# generate data
+N <- 3000
+x <- matrix(rnorm(N*10), ncol=10)
+y <- ((colSums(x)+rnorm(N)*10)>0)*2-1
+y <- as.factor(y)
+x.train <- x[1:(N/2),]; x.dev <- x[(N/2+1):N,]
+y.train <- y[1:(N/2)]; y.dev <- y[(N/2+1):N]
+
+# define model
+batch.size <- 128
+epochs <- 100
+structure <- c(5)
+activations <- "relu"
+l2 <- 0.005
+learning.rate <- 0.002
+
+
+fit <- train.nn(x.train, x.dev, y.train, y.dev,
+                     epochs, batch.size, activations, structure,
+                     l2, learning.rate, perf.metric="mean.accuracy")

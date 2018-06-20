@@ -3,7 +3,7 @@
 #' @param x.train matrix/xts n.obs*n.features
 #' @param x.dev matrix/xts n.obs*n.features
 #' @param y.train factor with levels c(-1, 1)
-#' @param y.test factor with levels c(-1, 1)
+#' @param y.dev factor with levels c(-1, 1)
 #' @param epochs number of eposch
 #' @param batch.size min batch size
 #' @param activations activation functions used in hidden layer: c("relu", "tanh", ...). For the output layer, softmax is used
@@ -16,7 +16,7 @@
 #' @return fit
 #' @export
 #'
-train.nn <- function(x.train, x.dev, y.train, y.test,
+train.nn <- function(x.train, x.dev, y.train, y.dev,
                      epochs, batch.size, activations, structure,
                      l2, learning.rate, tb.log,
                      perf.metric){
