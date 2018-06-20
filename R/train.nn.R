@@ -11,13 +11,15 @@
 #' @param l2 l2 regularisation value
 #' @param learning.rate learning rate
 #' @param tb.log character inidicating run name for tensorflow. if missing, tensorboard is not ran
+#' @param perf.metric c("mean.sr", "mean.accuracy")
 #'
 #' @return fit
 #' @export
 #'
 train.nn <- function(x.train, x.dev, y.train, y.test,
                      epochs, batch.size, activations, structure,
-                     l2, learning.rate, tb.log){
+                     l2, learning.rate, tb.log,
+                     perf.metric){
   y.train <- matrix(as.numeric(y.train), ncol=1)-1 # 0 if down, 1 if up
   y.dev <- matrix(as.numeric(y.dev, ncol=1))-1
 
@@ -33,11 +35,19 @@ train.nn <- function(x.train, x.dev, y.train, y.test,
   }
   layer_dense(model, units = 1, activation = "sigmoid") # output layer
 
-  compile(model,
-          loss = "binary_crossentropy",
-          optimizer = optimizer_adam(lr=learning.rate),
-          metrics = c("accuracy", metric.exp.sr)
-  )
+  if(perf.metric=="mean.sr"){
+    compile(model,
+            loss = "binary_crossentropy",
+            optimizer = optimizer_adam(lr=learning.rate),
+            metrics = c("accuracy", metric.exp.sr))
+  } else if (perf.metric=="mean.accuracy"){
+    compile(model,
+            loss = "binary_crossentropy",
+            optimizer = optimizer_adam(lr=learning.rate),
+            metrics = c("accuracy", metric.mean.accuracy))
+  } else {
+    stop("unknown perf.metric")
+  }
 
   if(missing(tb.log)) {
     fit <- fit(model,

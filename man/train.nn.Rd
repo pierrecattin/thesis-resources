@@ -5,7 +5,7 @@
 \title{Train feed-forward ANN}
 \usage{
 train.nn(x.train, x.dev, y.train, y.test, epochs, batch.size, activations,
-  structure, l2, learning.rate, tb.log)
+  structure, l2, learning.rate, tb.log, perf.metric)
 }
 \arguments{
 \item{x.train}{matrix/xts n.obs*n.features}
@@ -29,6 +29,8 @@ train.nn(x.train, x.dev, y.train, y.test, epochs, batch.size, activations,
 \item{learning.rate}{learning rate}
 
 \item{tb.log}{character inidicating run name for tensorflow. if missing, tensorboard is not ran}
+
+\item{perf.metric}{c("mean.sr", "mean.accuracy")}
 }
 \value{
 fit
