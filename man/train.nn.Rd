@@ -4,7 +4,7 @@
 \alias{train.nn}
 \title{Train feed-forward ANN}
 \usage{
-train.nn(x.train, x.dev, y.train, y.test, epochs, batch.size, activations,
+train.nn(x.train, x.dev, y.train, y.dev, epochs, batch.size, activations,
   structure, l2, learning.rate, tb.log, perf.metric)
 }
 \arguments{
@@ -14,7 +14,7 @@ train.nn(x.train, x.dev, y.train, y.test, epochs, batch.size, activations,
 
 \item{y.train}{factor with levels c(-1, 1)}
 
-\item{y.test}{factor with levels c(-1, 1)}
+\item{y.dev}{factor with levels c(-1, 1)}
 
 \item{epochs}{number of eposch}
 

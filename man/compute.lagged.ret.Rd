@@ -5,7 +5,7 @@
 \title{Compute lagged returns
 Compute lagged return each day up to a specified lag}
 \usage{
-compute.lagged.ret(prices, max.lag = 120, loading = T)
+compute.lagged.ret(prices, max.lag = 120, loading = T, volume = T)
 }
 \arguments{
 \item{prices}{OLHCV prices series; xts}
@@ -13,6 +13,8 @@ compute.lagged.ret(prices, max.lag = 120, loading = T)
 \item{max.lag}{indicates how far back lagged returns should be computed}
 
 \item{loading}{logical telling if loading bar should be displayed}
+
+\item{volume}{logical indicating if volume should be added}
 }
 \value{
 xts with one column per lag. Index is same as index of prices.
