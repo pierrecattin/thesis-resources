@@ -11,7 +11,7 @@
 freqacc.byset.byhoriz.plot <- function (freq.acc, conf, stock, model){
 
   # sort Set and Horizon to get the correct arrangement of the facets
-  freq.acc$Set <- factor(freq.acc$Set, levels=c("Training Set", "Dev Set", "Testing Set"))
+  freq.acc$Set <- factor(freq.acc$Set, levels=c("Training Set", "Validation Set", "Testing Set"))
 
   horizon.levels <- unique(freq.acc$Horizon)
   horizon.levels <- horizon.levels[order(horizon.levels)] # making sure that the levels are correctly sorted
@@ -22,11 +22,11 @@ freqacc.byset.byhoriz.plot <- function (freq.acc, conf, stock, model){
   # loadfonts(device = "win")
   my.plot <- ggplot(data=freq.acc, aes(x=Frequency, y=Accuracy)) +
     facet_grid(Horizon~Set) +
-    theme_bw(base_size=12, base_family="serif")
+    theme_bw(base_size=13, base_family="serif")
 
   if(!missing(conf)){
     my.plot <- my.plot + geom_ribbon(data=freq.acc, aes(ymin=lower,ymax=upper, x=Frequency, fill = "red"), alpha=0.2) +
-      scale_fill_manual( "", labels = paste0(conf*100,"% confidence intervall"), values=c("red"="red"))
+      scale_fill_manual( "", labels = paste0(conf*100,"% confidence interval"), values=c("red"="red"))
   }
 
   my.plot <- my.plot +

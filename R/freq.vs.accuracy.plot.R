@@ -33,7 +33,7 @@ freq.vs.accuracy.plot <- function (y, probs, conf, set, ytitle=T, legend=T, gran
     bounds[bounds[,1]>1,2] <- 1
     data <- cbind(data, bounds)
     my.plot <- my.plot + geom_ribbon(data=data, aes(ymin=lower,ymax=upper, x=Frequency, fill = "darkred"), alpha=0.2) +
-      scale_fill_manual( "", labels = paste0(conf*100,"% confidence intervall"), values=c("darkred"="darkred"))
+      scale_fill_manual( "", labels = paste0(conf*100,"% confidence interval"), values=c("darkred"="darkred"))
   }
   if(!ytitle)
     my.plot <-  my.plot + ylab(NULL)

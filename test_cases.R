@@ -10,7 +10,7 @@ source("R/confidence.bound.R")
 source("R/get.acc.freq.R")
 source("R/freq.vs.accuracy.plot.R")
 source("R/freq.vs.accuracy.multiplot.R")
-source("R/plot.freqacc.byset.byhoriz.R")
+source("R/freqacc.byset.byhoriz.plot.R")
 source("R/metric.exp.sr.R")
 source("R/metric.mean.accuracy.R")
 source("R/train.nn.R")
@@ -66,11 +66,11 @@ for(horizon in horizon.seq){
 
   freq.acc <- rbind(freq.acc,
                     get.acc.freq(y.train, train.probs, granularity, "Training Set", horizon, conf),
-                    get.acc.freq(y.dev, dev.probs, granularity, "Dev Set", horizon, conf),
+                    get.acc.freq(y.dev, dev.probs, granularity, "Validation Set", horizon, conf),
                     get.acc.freq(y.test, test.probs, granularity, "Testing Set", horizon, conf))
 
 }
-plot.freqacc.byset.byhoriz(freq.acc, conf, stock, model)
+freqacc.byset.byhoriz.plot(freq.acc, conf, stock, model)
 
 
 #### TF metrics ####

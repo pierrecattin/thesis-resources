@@ -21,10 +21,10 @@ freq.vs.accuracy.multiplot <- function (y.train, train.probs,
                                         conf, stock, model, horizon, granularity=0.01){
 
   data <- rbind(get.acc.freq(y.train, train.probs, granularity, "Training Set", horizon, conf),
-                get.acc.freq(y.dev, dev.probs, granularity, "Dev Set", horizon, conf),
+                get.acc.freq(y.dev, dev.probs, granularity, "Validation Set", horizon, conf),
                 get.acc.freq(y.test, test.probs, granularity, "Testing Set", horizon, conf))
 
-  data$Set <- factor(data$Set, levels=c("Training Set", "Dev Set", "Testing Set"))
+  data$Set <- factor(data$Set, levels=c("Training Set", "Validation Set", "Testing Set"))
   my.plot <- ggplot(data=data, aes(x=Frequency, y=Accuracy)) +
     geom_line(aes(color=round(min.prob, 1)),size=1.2)  +
     facet_wrap(~Set) +
@@ -38,7 +38,7 @@ freq.vs.accuracy.multiplot <- function (y.train, train.probs,
 
   if(!missing(conf)){
     my.plot <- my.plot + geom_ribbon(data=data, aes(ymin=lower,ymax=upper, x=Frequency, fill = "darkred"), alpha=0.2) +
-      scale_fill_manual( "", labels = paste0(conf*100,"% confidence intervall"), values=c("darkred"="darkred"))
+      scale_fill_manual( "", labels = paste0(conf*100,"% confidence interval"), values=c("darkred"="darkred"))
   }
   return(my.plot)
 }
