@@ -6,18 +6,19 @@
 #' @param set character (used for title)
 #' @param ytitle logical indicating if y title should be diplayed
 #' @param legend logical indicating if y legend should be displayed
+#' @param granularity numeric indicating granularity for the sequence of min support
 #'
 #' @return ggplot
 #' @export
 #'
-freq.vs.accuracy.plot <- function (y, probs, conf, set, ytitle=T, legend=T){
+freq.vs.accuracy.plot <- function (y, probs, conf, set, ytitle=T, legend=T, granularity){
   stopifnot(length(y)==length(probs))
 
-  min.prob.seq <- seq(0.5, 1, 0.025)
+  min.prob.seq <- seq(0.5, 1, granularity)
   data <- data.frame(min.prob=min.prob.seq, Accuracy=rep(NA, length(min.prob.seq)), Frequency=rep(NA, length(min.prob.seq)))
   #min.prob <- .6
   for (min.prob in min.prob.seq){
-    results <- evaluate.predictions(y, probs, min.prob, n=8)
+    results <- evaluate.predictions(y, probs, min.prob, n=7)
     if(results[1]=="no predictions") { # if no predictions are made, break the loop
       break
     }

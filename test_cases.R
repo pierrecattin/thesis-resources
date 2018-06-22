@@ -27,15 +27,21 @@ evaluate.predictions(y, probs, 0.71, n, T)
 L <- 10000
 train.probs <- runif(L)
 y.train <- 1*((train.probs+rnorm(L)/5)>0.5)*2-1
-dev.probs <- runif(L)
+dev.probs <- runif(L, 0.2, 0.8)
 y.dev <- 1*((dev.probs+rnorm(L)/4)>0.5)*2-1
-test.probs <- runif(L)
+test.probs <- runif(L, 0.4, 0.6)
 y.test <- 1*((test.probs+rnorm(L)/4)>0.5)*2-1
 conf <- 0.95; stock<-"AAPL"; horizon<- 60
 freq.vs.accuracy.multiplot(y.train, train.probs,
                                y.dev, dev.probs,
                                y.test, test.probs,
                                conf, stock, horizon)
+
+
+
+
+
+
 
 #### TF metrics ####
 # create data

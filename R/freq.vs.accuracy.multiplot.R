@@ -9,6 +9,7 @@
 #' @param conf numeric indicating if confidence intervall to be plotted
 #' @param stock stock name for title
 #' @param horizon horizon in minutes for title
+#' @param granularity numeric indicating granularity for the sequence of min support
 #'
 #' @return prints the plot
 #' @export
@@ -16,11 +17,11 @@
 freq.vs.accuracy.multiplot <- function (y.train, train.probs,
                                         y.dev, dev.probs,
                                         y.test, test.probs,
-                                        conf, stock, horizon){
+                                        conf, stock, horizon, granularity=0.01){
 
-  plots <- list(freq.vs.accuracy.plot(y.train, train.probs, conf, "Training", legend=F),
-     dev.plot <- freq.vs.accuracy.plot(y.dev, dev.probs, conf, "Dev", ytitle=F, legend=F),
-     test.plot <- freq.vs.accuracy.plot(y.test, test.probs, conf, "Testing", ytitle=F))
+  plots <- list(freq.vs.accuracy.plot(y.train, train.probs, conf, "Training", legend=F, granularity),
+     dev.plot <- freq.vs.accuracy.plot(y.dev, dev.probs, conf, "Dev", ytitle=F, legend=F, granularity),
+     test.plot <- freq.vs.accuracy.plot(y.test, test.probs, conf, "Testing", ytitle=F, granularity))
 
   multiplot(plotlist = plots, cols=3,
    title=paste0("Frequency-Accuracy Tradeoff - ", stock, ", ",horizon, "min"))
