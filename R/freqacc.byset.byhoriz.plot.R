@@ -8,7 +8,7 @@
 #' @return 4 by 3 facets ggplot
 #' @export
 #'
-plot.freqacc.byset.byhoriz <- function (freq.acc, conf, stock, model){
+freqacc.byset.byhoriz.plot <- function (freq.acc, conf, stock, model){
 
   # sort Set and Horizon to get the correct arrangement of the facets
   freq.acc$Set <- factor(freq.acc$Set, levels=c("Training Set", "Dev Set", "Testing Set"))
@@ -22,7 +22,7 @@ plot.freqacc.byset.byhoriz <- function (freq.acc, conf, stock, model){
   # loadfonts(device = "win")
   my.plot <- ggplot(data=freq.acc, aes(x=Frequency, y=Accuracy)) +
     facet_grid(Horizon~Set) +
-    theme_bw(base_size=10, base_family="serif")
+    theme_bw(base_size=12, base_family="serif")
 
   if(!missing(conf)){
     my.plot <- my.plot + geom_ribbon(data=freq.acc, aes(ymin=lower,ymax=upper, x=Frequency, fill = "red"), alpha=0.2) +
@@ -31,7 +31,7 @@ plot.freqacc.byset.byhoriz <- function (freq.acc, conf, stock, model){
 
   my.plot <- my.plot +
     geom_line(aes(color=round(min.prob, 1)),size=1)  +
-    facet_grid(Horizon~Set) +
+    geom_hline(yintercept=0.5) +
     scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
     scale_y_continuous(labels = scales::percent)+
     scale_colour_continuous(name="Minimum support", trans="reverse", low = "#000066", high = "#ccccff") + # legend of min.prob
