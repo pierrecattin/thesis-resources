@@ -26,7 +26,7 @@ freq.vs.accuracy.multiplot(y.train, train.probs, y.dev, dev.probs, y.test,
 
 \item{horizon}{horizon in minutes for title}
 
-\item{granularity}{numeric indicating granularity for the sequence of min support}
+\item{granularity}{numeric indicating granularity for the sequence of min supports}
 }
 \value{
 ggplot

@@ -45,11 +45,3 @@ freq.vs.accuracy.plot <- function (y, probs, conf, set, ytitle=T, legend=T, gran
 
   return(my.plot)
 }
-
-# y <- y.dev
-# probs <- dev.probs
-# min.prob <- 0.6
-# library(ggplot2)
-# stock <- "AAPL"
-# set <- "dev"
-# conf <- 0.95
