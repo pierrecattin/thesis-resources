@@ -4,7 +4,7 @@
 \alias{get.acc.freq}
 \title{Get accuracy and frequency for all minimum supports}
 \usage{
-get.acc.freq(y, probs, granularity, set, conf)
+get.acc.freq(y, probs, granularity, set, horizon, conf)
 }
 \arguments{
 \item{y}{numeric -1, +1}
@@ -16,9 +16,11 @@ get.acc.freq(y, probs, granularity, set, conf)
 \item{set}{optional character indicating the name of the set}
 
 \item{conf}{optional numeric inidcating the confidence level to compute confidence bounds}
+
+\item{Horizon}{optional numeric indicating the horizon}
 }
 \value{
-dataframe with columns min.prob, Accuracy, Frequency, Set if specified, lower and upper if conf is specified
+dataframe with columns min.prob, Accuracy, Frequency, Set if specified, Horizon if specified, lower and upper if conf is specified
 }
 \description{
 Get accuracy and frequency for all minimum supports

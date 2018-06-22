@@ -10,7 +10,7 @@ source("R/confidence.bound.R")
 source("R/get.acc.freq.R")
 source("R/freq.vs.accuracy.plot.R")
 source("R/freq.vs.accuracy.multiplot.R")
-source("R/multiplot.R")
+source("R/plot.freqacc.byset.byhoriz.R")
 source("R/metric.exp.sr.R")
 source("R/metric.mean.accuracy.R")
 source("R/train.nn.R")
@@ -24,23 +24,53 @@ n <- 8
 evaluate.model(y, probs, n)
 evaluate.predictions(y, probs, 0.71, n, T)
 
-#### multiplot ####
+#### Frequency-Accuracy plots ####
 L <- 10000
 train.probs <- runif(L)
 y.train <- 1*((train.probs+rnorm(L)/5)>0.5)*2-1
-dev.probs <- runif(L, 0.2, 0.8)
+dev.probs <- runif(L, 0, 1)
 y.dev <- 1*((dev.probs+rnorm(L)/4)>0.5)*2-1
 test.probs <- runif(L, 0, 1)
 y.test <- 1*((test.probs+rnorm(L)/4)>0.5)*2-1
 conf <- 0.99; stock<-"AAPL"; horizon<- 60;  granularity<- 0.01
+
+# Single curve
+freq.vs.accuracy.plot(y.train, train.probs, conf, set="Training", ytitle=T, legend=T, granularity)
+
+# Three sets
 freq.vs.accuracy.multiplot(y.train, train.probs,
                                y.dev, dev.probs,
                                y.test, test.probs,
-                               conf, stock, horizon, granularity)
+                               conf, stock, "Logit", horizon, granularity)
 
-y <- y.train; probs<-train.probs; ytitle <- T; legend<-T; set <- "Training"
-freq.vs.accuracy.plot(y, probs, conf, set, ytitle, legend=T, granularity)
 
+# All sets and all horizons
+L <- 10000
+conf <- 0.99; stock<-"AAPL"; horizon<- 60;  granularity<- 0.01; model <- "Logit"
+
+horizon.seq <- c(1, 5, 30, 60)
+freq.acc <- data.frame(min.prob=numeric(0),
+                       Accuracy=numeric(0),
+                       Frequency=numeric(0),
+                       Set=character(0),
+                       Horizon=numeric(0),
+                       lower=numeric(0),
+                       upper=numeric(0))
+for(horizon in horizon.seq){
+  train.probs <- runif(L)
+  y.train <- 1*((train.probs+rnorm(L)*horizon/60)>0.5)*2-1
+  dev.probs <- runif(L, 0, 1)
+  y.dev <- 1*((dev.probs+rnorm(L)*horizon/30)>0.5)*2-1
+  test.probs <- runif(L, 0, 1)
+  y.test <- 1*((test.probs+rnorm(L)*horizon/10)>0.5)*2-1
+
+  freq.acc <- rbind(freq.acc,
+                    get.acc.freq(y.train, train.probs, granularity, "Training Set", horizon, conf),
+                    get.acc.freq(y.dev, dev.probs, granularity, "Dev Set", horizon, conf),
+                    get.acc.freq(y.test, test.probs, granularity, "Testing Set", horizon, conf))
+
+}
+plot.freqacc.byset.byhoriz(freq.acc, conf, stock, model)
 
 
 #### TF metrics ####

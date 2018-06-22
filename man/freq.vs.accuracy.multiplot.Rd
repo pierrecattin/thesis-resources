@@ -5,7 +5,7 @@
 \title{Frequency vs accuracy of prediction for all 3 samples}
 \usage{
 freq.vs.accuracy.multiplot(y.train, train.probs, y.dev, dev.probs, y.test,
-  test.probs, conf, stock, horizon, granularity = 0.01)
+  test.probs, conf, stock, model, horizon, granularity = 0.01)
 }
 \arguments{
 \item{y.train}{numeric -1, +1}
@@ -23,6 +23,8 @@ freq.vs.accuracy.multiplot(y.train, train.probs, y.dev, dev.probs, y.test,
 \item{conf}{numeric indicating if confidence intervall to be plotted}
 
 \item{stock}{stock name for title}
+
+\item{model}{model name for title}
 
 \item{horizon}{horizon in minutes for title}
 
