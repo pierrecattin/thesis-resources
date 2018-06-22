@@ -9,7 +9,7 @@
 #' @param conf numeric indicating if confidence intervall to be plotted
 #' @param stock stock name for title
 #' @param horizon horizon in minutes for title
-#' @param granularity numeric indicating granularity for the sequence of min support
+#' @param granularity numeric indicating granularity for the sequence of min supports
 #'
 #' @return ggplot
 #' @export
