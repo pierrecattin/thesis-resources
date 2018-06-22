@@ -2,7 +2,7 @@
 % Please edit documentation in R/freq.vs.accuracy.plot.R
 \name{freq.vs.accuracy.plot}
 \alias{freq.vs.accuracy.plot}
-\title{Plot frequency vs accuracy of prediction}
+\title{Plot frequency vs accuracy of prediction. Single plot}
 \usage{
 freq.vs.accuracy.plot(y, probs, conf, set, ytitle = T, legend = T,
   granularity)
@@ -26,5 +26,5 @@ freq.vs.accuracy.plot(y, probs, conf, set, ytitle = T, legend = T,
 ggplot
 }
 \description{
-Plot frequency vs accuracy of prediction
+Plot frequency vs accuracy of prediction. Single plot
 }

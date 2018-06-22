@@ -29,7 +29,7 @@ freq.vs.accuracy.multiplot(y.train, train.probs, y.dev, dev.probs, y.test,
 \item{granularity}{numeric indicating granularity for the sequence of min support}
 }
 \value{
-prints the plot
+ggplot
 }
 \description{
 Frequency vs accuracy of prediction for all 3 samples
