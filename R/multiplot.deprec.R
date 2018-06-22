@@ -8,7 +8,6 @@
 #' @param title main title
 #'
 #' @return returns nothing but prints the plot
-#' @export
 #'
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL, title="") {
 

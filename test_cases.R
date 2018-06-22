@@ -7,6 +7,7 @@ source("R/evaluate.model.R")
 source("R/evaluate.predictions.R")
 source("R/freq.adjusted.accuracy.R")
 source("R/confidence.bound.R")
+source("R/get.acc.freq.R")
 source("R/freq.vs.accuracy.plot.R")
 source("R/freq.vs.accuracy.multiplot.R")
 source("R/multiplot.R")
@@ -29,17 +30,16 @@ train.probs <- runif(L)
 y.train <- 1*((train.probs+rnorm(L)/5)>0.5)*2-1
 dev.probs <- runif(L, 0.2, 0.8)
 y.dev <- 1*((dev.probs+rnorm(L)/4)>0.5)*2-1
-test.probs <- runif(L, 0.4, 0.6)
+test.probs <- runif(L, 0, 1)
 y.test <- 1*((test.probs+rnorm(L)/4)>0.5)*2-1
-conf <- 0.95; stock<-"AAPL"; horizon<- 60
+conf <- 0.99; stock<-"AAPL"; horizon<- 60;  granularity<- 0.01
 freq.vs.accuracy.multiplot(y.train, train.probs,
                                y.dev, dev.probs,
                                y.test, test.probs,
-                               conf, stock, horizon)
+                               conf, stock, horizon, granularity)
 
-
-
-
+y <- y.train; probs<-train.probs; ytitle <- T; legend<-T; set <- "Training"
+freq.vs.accuracy.plot(y, probs, conf, set, ytitle, legend=T, granularity)
 
 
 

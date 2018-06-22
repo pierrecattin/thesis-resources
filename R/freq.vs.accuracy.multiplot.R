@@ -11,7 +11,7 @@
 #' @param horizon horizon in minutes for title
 #' @param granularity numeric indicating granularity for the sequence of min support
 #'
-#' @return prints the plot
+#' @return ggplot
 #' @export
 #'
 freq.vs.accuracy.multiplot <- function (y.train, train.probs,
@@ -19,11 +19,25 @@ freq.vs.accuracy.multiplot <- function (y.train, train.probs,
                                         y.test, test.probs,
                                         conf, stock, horizon, granularity=0.01){
 
-  plots <- list(freq.vs.accuracy.plot(y.train, train.probs, conf, "Training", legend=F, granularity),
-     dev.plot <- freq.vs.accuracy.plot(y.dev, dev.probs, conf, "Dev", ytitle=F, legend=F, granularity),
-     test.plot <- freq.vs.accuracy.plot(y.test, test.probs, conf, "Testing", ytitle=F, granularity))
+  data <- rbind(get.acc.freq(y.train, train.probs, granularity, "Training Set", conf),
+                get.acc.freq(y.dev, dev.probs, granularity, "Dev Set", conf),
+                get.acc.freq(y.test, test.probs, granularity, "Testing Set", conf))
 
-  multiplot(plotlist = plots, cols=3,
-   title=paste0("Frequency-Accuracy Tradeoff - ", stock, ", ",horizon, "min"))
-  return("printed")
+  data$Set <- factor(data$Set, levels=c("Training Set", "Dev Set", "Testing Set"))
+  my.plot <- ggplot(data=data, aes(x=Frequency, y=Accuracy)) +
+    geom_line(aes(color=round(min.prob, 1)),size=1.2)  +
+    facet_wrap(~Set) +
+    scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
+    scale_y_continuous(labels = scales::percent)+
+    scale_colour_continuous(name="Min support", trans="reverse") + # reverse legend of min.prob
+    theme_bw(base_size=10) +
+    #  theme_bw(base_size=12,base_family="Times New Roman") +
+    theme(legend.position="bottom") +
+    ggtitle(paste0("Frequency-Accuracy Tradeoff - ", stock, ", ",horizon, "min"))
+
+  if(!missing(conf)){
+    my.plot <- my.plot + geom_ribbon(data=data, aes(ymin=lower,ymax=upper, x=Frequency, fill = "darkred"), alpha=0.2) +
+      scale_fill_manual( "", labels = paste0(conf*100,"% confidence intervall"), values=c("darkred"="darkred"))
+  }
+  return(my.plot)
 }

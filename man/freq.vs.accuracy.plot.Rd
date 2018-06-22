@@ -4,7 +4,8 @@
 \alias{freq.vs.accuracy.plot}
 \title{Plot frequency vs accuracy of prediction}
 \usage{
-freq.vs.accuracy.plot(y, probs, conf, set, ytitle = T, legend = T)
+freq.vs.accuracy.plot(y, probs, conf, set, ytitle = T, legend = T,
+  granularity)
 }
 \arguments{
 \item{y}{numeric -1, +1}
@@ -18,6 +19,8 @@ freq.vs.accuracy.plot(y, probs, conf, set, ytitle = T, legend = T)
 \item{ytitle}{logical indicating if y title should be diplayed}
 
 \item{legend}{logical indicating if y legend should be displayed}
+
+\item{granularity}{numeric indicating granularity for the sequence of min support}
 }
 \value{
 ggplot

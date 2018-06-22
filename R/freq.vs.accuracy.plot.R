@@ -1,4 +1,4 @@
-#' Plot frequency vs accuracy of prediction
+#' Plot frequency vs accuracy of prediction. Single plot
 #'
 #' @param y  numeric -1, +1
 #' @param probs numeric indicating probability of up
@@ -14,19 +14,7 @@
 freq.vs.accuracy.plot <- function (y, probs, conf, set, ytitle=T, legend=T, granularity){
   stopifnot(length(y)==length(probs))
 
-  min.prob.seq <- seq(0.5, 1, granularity)
-  data <- data.frame(min.prob=min.prob.seq, Accuracy=rep(NA, length(min.prob.seq)), Frequency=rep(NA, length(min.prob.seq)))
-  #min.prob <- .6
-  for (min.prob in min.prob.seq){
-    results <- evaluate.predictions(y, probs, min.prob, n=7)
-    if(results[1]=="no predictions") { # if no predictions are made, break the loop
-      break
-    }
-    data[which(min.prob.seq==min.prob), c("Accuracy", "Frequency")] <- results[c("accuracy", "freq")]
-  }
-  data <- data[!is.na(data$Accuracy), ]
-  n.small <- length(probs) * data$Frequency  < 100
-  data <- data[!n.small, ] # remove datapoints with little observations
+  data <- get.acc.freq(y, probs, granularity)
 
 
   my.plot <- ggplot(data=data, aes(x=Frequency, y=Accuracy)) +

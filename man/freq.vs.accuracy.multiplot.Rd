@@ -5,7 +5,7 @@
 \title{Frequency vs accuracy of prediction for all 3 samples}
 \usage{
 freq.vs.accuracy.multiplot(y.train, train.probs, y.dev, dev.probs, y.test,
-  test.probs, conf, stock, horizon)
+  test.probs, conf, stock, horizon, granularity = 0.01)
 }
 \arguments{
 \item{y.train}{numeric -1, +1}
@@ -25,6 +25,8 @@ freq.vs.accuracy.multiplot(y.train, train.probs, y.dev, dev.probs, y.test,
 \item{stock}{stock name for title}
 
 \item{horizon}{horizon in minutes for title}
+
+\item{granularity}{numeric indicating granularity for the sequence of min support}
 }
 \value{
 prints the plot
