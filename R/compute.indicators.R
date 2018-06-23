@@ -12,12 +12,16 @@ compute.indicators <- function(prices, loading=T){
   all.days <- as.Date(time(prices))
   days <- unique(all.days)
 
-  indicators.cols <- c("rsi.10", "rsi.60", "rsi.120",
+  indicators.cols <- c("return.1", "return.5", "return.15", "return.60", "return.120",
+                       "rsi.10", "rsi.60", "rsi.120",
                        "macd.1.12", "macd.5.60", "macd.10.120",
                        "obv",
                        "wpr.10", "wpr.60", "wpr.120",
                        "cci.10", "cci.60", "cci.120",
-                       "return.1", "return.5", "return.15", "return.60", "return.120")
+                       "cmf.10", "cmf.60", "cmf.120",
+                       "sar",
+                       "garch")
+
   indicators <- matrix(NA, ncol=length(indicators.cols), nrow=nrow(prices))
   colnames(indicators)<- indicators.cols
   indicators <- as.xts(indicators, order.by=time(prices))
@@ -50,10 +54,8 @@ compute.indicators <- function(prices, loading=T){
     indicators[all.days==d,]$cci.60 <- as.numeric(CCI(prices.day[, c("high", "low", "close")], n=60, maType="EMA", c=0.015))
     indicators[all.days==d,]$cci.120 <- as.numeric(CCI(prices.day[, c("high", "low", "close")], n=120, maType="EMA", c=0.015))
 
-
     # OBV
     indicators[all.days==d,]$obv <- as.numeric(OBV(prices.day$close, prices.day$volume))
-
 
     # returns
     indicators[all.days==d,]$return.1 <- ROC(as.numeric(prices.day$close), n=1, type="discrete")
@@ -61,6 +63,17 @@ compute.indicators <- function(prices, loading=T){
     indicators[all.days==d,]$return.15 <- ROC(as.numeric(prices.day$close), n=15, type="discrete")
     indicators[all.days==d,]$return.60 <- ROC(as.numeric(prices.day$close), n=60, type="discrete")
     indicators[all.days==d,]$return.120 <- ROC(as.numeric(prices.day$close), n=120, type="discrete")
+
+    #CMF
+    indicators[all.days==d,]$cmf.10 <- as.numeric(CMF(prices.day[,c("high", "low", "close")], prices.day$volume, n=10))
+    indicators[all.days==d,]$cmf.60  <- as.numeric(CMF(prices.day[,c("high", "low", "close")],prices.day$volume, n=60))
+    indicators[all.days==d,]$cmf.120 <- as.numeric(CMF(prices.day[,c("high", "low", "close")], prices.day$volume, n=120))
+
+    # Parabolic SAR
+    indicators[all.days==d,]$sar <- as.numeric(SAR(prices.day[,c("high", "low")], accel=c(0.02, 0.2)))
+
+    # GARCH
+    indicators[all.days==d,]$garch <- garchFit(~garch(1,1), data=prices.day$close)@sigma.t
   }
   if (loading)
     close(pb.ind)
