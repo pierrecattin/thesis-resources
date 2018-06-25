@@ -19,7 +19,7 @@ source("R/metric.exp.sr.R")
 source("R/metric.mean.accuracy.R")
 source("R/train.nn.R")
 source("R/compute.indicators.R")
-####  ####
+#### Indicators  ####
 prices <- readRDS("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main/data/clean/t_prices_AAPL.RDS")
 prices <- prices[,-6]
 prices <- prices[1:(390*10),]
@@ -29,7 +29,7 @@ indicators <- compute.indicators(prices, loading)
 
 library(corrplot)
 M<-cor(indicators, use="complete.obs")
-head(round(M,2))
+View(round(M,2))
 corrplot(M, method="color", type="upper", tl.col="black", tl.srt=70) # , order="hclust"
 
 #### Evaluate model and preds ####

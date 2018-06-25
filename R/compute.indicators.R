@@ -33,6 +33,9 @@ compute.indicators <- function(prices, loading=T){
     day.num <- which(days==d) # only for pb
     if (loading)
       setTkProgressBar(pb.ind, day.num, label=paste0(day.num, "/", length(days), " days computed"))
+    else{
+      cat(day.num/length(days)*100, "% \n")
+    }
     prices.day <- prices[all.days==d,]
     #RSI
     indicators[all.days==d,]$rsi.10 <- as.numeric(RSI(prices.day$close, 10))
@@ -73,7 +76,9 @@ compute.indicators <- function(prices, loading=T){
     indicators[all.days==d,]$sar <- as.numeric(SAR(prices.day[,c("high", "low")], accel=c(0.02, 0.2)))
 
     # GARCH
-    indicators[all.days==d,]$garch <- garchFit(~garch(1,1), data=prices.day$close)@sigma.t
+    indicators[all.days==d,]$garch <- garchFit(~garch(1,1), data=prices.day$close, trace=F)@sigma.t
+
+    stopifnot(!any(colSums(!is.na(indicators[all.days==d,]))==0)) # check that all the inidcators could be computed for >0 obs
   }
   if (loading)
     close(pb.ind)
