@@ -4,7 +4,8 @@
 \alias{make.ml.sets}
 \title{Make training/dev/test test}
 \usage{
-make.ml.sets(x, y, training.start, training.end, dev.end, test.end)
+make.ml.sets(x, y, training.start, training.end, dev.end, test.end,
+  train.for.test.start)
 }
 \arguments{
 \item{x}{: xts of features}
@@ -18,6 +19,8 @@ make.ml.sets(x, y, training.start, training.end, dev.end, test.end)
 \item{dev.end}{: date}
 
 \item{test.end}{: date. Optional, if missing, no test set is created}
+
+\item{test.train.start}{: date. Optional. Start of the period used to train the model for the test set}
 }
 \value{
 list containing x.train(xts), x.dev(xts), (x.test(xts)), y.train(factor), y.dev(factor), (y.test(factor))
