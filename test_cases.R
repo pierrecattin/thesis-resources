@@ -7,6 +7,7 @@ library(xts)
 library(TTR)
 library(fGarch)
 library(tcltk)
+library(lubridate)
 source("R/evaluate.model.R")
 source("R/evaluate.predictions.R")
 source("R/freq.adjusted.accuracy.R")
@@ -19,6 +20,7 @@ source("R/metric.exp.sr.R")
 source("R/metric.mean.accuracy.R")
 source("R/train.nn.R")
 source("R/compute.indicators.R")
+source("R/make.ml.sets.R")
 #### Indicators  ####
 prices <- readRDS("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main/data/clean/t_prices_AAPL.RDS")
 prices <- prices[,-6]
@@ -31,6 +33,17 @@ library(corrplot)
 M<-cor(indicators, use="complete.obs")
 View(round(M,2))
 corrplot(M, method="color", type="upper", tl.col="black", tl.srt=70) # , order="hclust"
+
+#### make.ml.sets####
+x <- readRDS("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main/saved_results/lagged_ret_volTRUE_AAPL.RDS")
+y <- indicators <- readRDS("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main/saved_results/y_AAPL.RDS")[[1]]
+training.start <- date("2014-06-01") # start of training sample
+training.end <- date("2016-05-31") # end of training sample; start of dev sample
+dev.end <- date("2017-05-31")
+testing.end <- date(prices[nrow(prices),])
+train.for.test.start <- date("2015-06-01")
+
+sets <- make.ml.sets(x, y, training.start, training.end, dev.end, testing.end, train.for.test.start)
 
 #### Evaluate model and preds ####
 L <- 10000

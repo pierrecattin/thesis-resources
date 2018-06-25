@@ -8,11 +8,12 @@
 #' @param training.end : date
 #' @param dev.end : date
 #' @param test.end : date. Optional, if missing, no test set is created
+#' @param test.train.start : date. Optional. Start of the period used to train the model for the test set
 #'
 #' @return list containing x.train(xts), x.dev(xts), (x.test(xts)), y.train(factor), y.dev(factor), (y.test(factor))
 #' @export
 #'
-make.ml.sets <- function(x, y, training.start, training.end, dev.end, test.end){
+make.ml.sets <- function(x, y, training.start, training.end, dev.end, test.end, train.for.test.start){
   # only keep full observations for y and indicators:
   # remove first observations each day because indicators cannot be computed,
   # and last observations because y cannot be computed
@@ -58,7 +59,15 @@ make.ml.sets <- function(x, y, training.start, training.end, dev.end, test.end){
     y.test <- y.full[test.index]
     cat("test set has ", nrow(x.test), " observations \n")
     #min(time(x.test)); max(time(x.test))
-    return(list(x.train=x.train, x.dev=x.dev, x.test=x.test, y.train=y.train, y.dev=y.dev, y.test=y.test))
+    if(missing(train.for.test.start)){
+      return(list(x.train=x.train, x.dev=x.dev, x.test=x.test, y.train=y.train, y.dev=y.dev, y.test=y.test))
+    } else{
+      train.for.test.index <- days >= train.for.test.start & days <= dev.end
+      x.train.for.test <- x.full[train.for.test.index,]
+      y.train.for.test <- y.full[train.for.test.index]
+      cat("train for test set has ", nrow(x.train.for.test), " observations \n")
+      return(list(x.train=x.train, x.dev=x.dev, x.test=x.test, y.train=y.train, y.dev=y.dev, y.test=y.test, x.train.for.test=x.train.for.test, y.train.for.test=y.train.for.test))
+    }
   }
 }
 
