@@ -13,6 +13,7 @@ source("R/evaluate.predictions.R")
 source("R/freq.adjusted.accuracy.R")
 source("R/confidence.bound.R")
 source("R/get.acc.freq.R")
+source("R/perf.metric.R")
 source("R/freq.vs.accuracy.plot.R")
 source("R/freq.vs.accuracy.multiplot.R")
 source("R/freqacc.byset.byhoriz.plot.R")
@@ -21,6 +22,20 @@ source("R/metric.mean.accuracy.R")
 source("R/train.nn.R")
 source("R/compute.indicators.R")
 source("R/make.ml.sets.R")
+
+#### get.acc.freq ####
+L <- 10000
+probs <- runif(L)
+y <- 1*((probs+rnorm(L)/5)>0.5)*2-1
+granularity <- 0.001; set="t"; horizon=17; conf=0.99; min.preds=0; sr=T; n=7
+freq.acc <- get.acc.freq(y, probs, granularity, set, horizon, conf, min.preds, sr, n)
+# p <- freq.acc$Accuracy
+# q<-freq.acc$Frequency
+# m <- 7*5.5*60
+# plot(x=sqrt(q*m)*(2*p-1)/sqrt(-4*p^2*q+4*p*q-q+1), y=freq.acc$Sr)
+metric <- "mean.accuracy"
+perf.metric(freq.acc, metric)
+
 #### Indicators  ####
 prices <- readRDS("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main/data/clean/t_prices_AAPL.RDS")
 prices <- prices[,-6]

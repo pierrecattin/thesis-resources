@@ -4,7 +4,8 @@
 \alias{get.acc.freq}
 \title{Get accuracy and frequency for all minimum supports}
 \usage{
-get.acc.freq(y, probs, granularity, set, horizon, conf)
+get.acc.freq(y, probs, granularity, set, horizon, conf, min.preds = 0,
+  sr = F, n = 7)
 }
 \arguments{
 \item{y}{numeric -1, +1}
@@ -16,6 +17,10 @@ get.acc.freq(y, probs, granularity, set, horizon, conf)
 \item{set}{optional character indicating the name of the set}
 
 \item{conf}{optional numeric inidcating the confidence level to compute confidence bounds}
+
+\item{min.preds}{numeric indicating the minimum number of predictions for a frequency level to be considered}
+
+\item{sr}{logical indicating if sr should be returned}
 
 \item{Horizon}{optional numeric indicating the horizon}
 }

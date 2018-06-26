@@ -2,7 +2,7 @@
 % Please edit documentation in R/evaluate.model.R
 \name{evaluate.model}
 \alias{evaluate.model}
-\title{Compute performance metrics over all min probs}
+\title{DEPRECATED: Compute performance metrics over all min probs}
 \usage{
 evaluate.model(y, probs, n)
 }
@@ -14,8 +14,9 @@ evaluate.model(y, probs, n)
 \item{n}{number of stocks}
 }
 \value{
-Named numeric containing the results of the best value for min.prop, as well as the mean sr across min probs: c(min.prob, accuracy, freq, sr, mean.sr)
+Named numeric containing the results of the best value for min.prop, as well as the mean sr across min probs:
+ c(min.prob, accuracy, freq, sr, mean.sr)
 }
 \description{
-Compute performance metrics over all min probs
+DEPRECATED: Compute performance metrics over all min probs
 }

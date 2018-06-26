@@ -4,12 +4,12 @@
 #' @param probs : numeric probability of up
 #' @param min.prob: numeric indicating minimum confidence required to make a prediction
 #' @param check: logical indicating if dimension checks should be performed
-#' @param n number of stocks
+#' @param n number of stocks (only relevant if sr is needed)
 #'
 #' @return Named numeric containing c(min.prob, accuracy, freq, sr), or "no predictions" if min.prob is too high
 #' @export
 #'
-evaluate.predictions <- function(y, probs, min.prob, n, check=F){
+evaluate.predictions <- function(y, probs, min.prob, n=7, check=F){
   if(check){
     stopifnot(length(y)==length(probs))
   }
