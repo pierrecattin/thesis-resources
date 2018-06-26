@@ -12,7 +12,7 @@ compute.indicators <- function(prices, loading=T){
   all.days <- as.Date(time(prices))
   days <- unique(all.days)
 
-  indicators.cols <- c("return.1", "return.5", "return.15", "return.60", "return.120",
+  indicators.cols <- c("return.1", "return.10", "return.30", "return.60", "return.120",
                        "rsi.10", "rsi.60", "rsi.120",
                        "macd.1.12", "macd.5.60", "macd.10.120",
                        "obv",
@@ -28,7 +28,7 @@ compute.indicators <- function(prices, loading=T){
   # d <- days[1]
   if (loading)
     pb.ind <- tkProgressBar(title = "Computing Indicators", min = 0,
-                          max = length(days), width = 300)
+                            max = length(days), width = 300)
   for (d in days){
     day.num <- which(days==d) # only for pb
     if (loading)
@@ -62,15 +62,15 @@ compute.indicators <- function(prices, loading=T){
 
     # returns
     indicators[all.days==d,]$return.1 <- ROC(as.numeric(prices.day$close), n=1, type="discrete")
-    indicators[all.days==d,]$return.5 <- ROC(as.numeric(prices.day$close), n=5, type="discrete")
-    indicators[all.days==d,]$return.15 <- ROC(as.numeric(prices.day$close), n=15, type="discrete")
+    indicators[all.days==d,]$return.10 <- ROC(as.numeric(prices.day$close), n=10, type="discrete")
+    indicators[all.days==d,]$return.30 <- ROC(as.numeric(prices.day$close), n=30, type="discrete")
     indicators[all.days==d,]$return.60 <- ROC(as.numeric(prices.day$close), n=60, type="discrete")
     indicators[all.days==d,]$return.120 <- ROC(as.numeric(prices.day$close), n=120, type="discrete")
 
     #CMF
-    indicators[all.days==d,]$cmf.10 <- as.numeric(CMF(prices.day[,c("high", "low", "close")], prices.day$volume, n=10))
-    indicators[all.days==d,]$cmf.60  <- as.numeric(CMF(prices.day[,c("high", "low", "close")],prices.day$volume, n=60))
-    indicators[all.days==d,]$cmf.120 <- as.numeric(CMF(prices.day[,c("high", "low", "close")], prices.day$volume, n=120))
+    indicators[all.days==d,]$cmf.10 <- as.numeric(CMF(prices.day[,c("high", "low", "close")], as.numeric(prices.day$volume), n=10))
+    indicators[all.days==d,]$cmf.60  <- as.numeric(CMF(prices.day[,c("high", "low", "close")], as.numeric(prices.day$volume), n=60))
+    indicators[all.days==d,]$cmf.120 <- as.numeric(CMF(prices.day[,c("high", "low", "close")], as.numeric(prices.day$volume), n=120))
 
     # Parabolic SAR
     indicators[all.days==d,]$sar <- as.numeric(SAR(prices.day[,c("high", "low")], accel=c(0.02, 0.2)))
@@ -80,6 +80,11 @@ compute.indicators <- function(prices, loading=T){
 
     stopifnot(!any(colSums(!is.na(indicators[all.days==d,]))==0)) # check that all the inidcators could be computed for >0 obs
   }
+
+  indicators$cmf.10[is.infinite(indicators$cmf.10)] <- mean(indicators$cmf.10[is.finite(indicators$cmf.10)])
+  indicators$cmf.60[is.infinite(indicators$cmf.60)] <- mean(indicators$cmf.60[is.finite(indicators$cmf.60)])
+  indicators$cmf.120[is.infinite(indicators$cmf.120)] <- mean(indicators$cmf.120[is.finite(indicators$cmf.120)])
+
   if (loading)
     close(pb.ind)
   return(indicators)
