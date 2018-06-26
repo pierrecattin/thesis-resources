@@ -10,7 +10,7 @@
 evaluate.model <- function(y, probs, n){
   stopifnot(length(y)==length(probs))
 
-  min.prob.seq <- seq(0.5, 1, 0.001)
+  min.prob.seq <- seq(0.5, 1, 0.01)
   sr <- rep(NA, length(min.prob.seq))
   accuracy <- rep(NA, length(min.prob.seq))
   max.sr <- -99

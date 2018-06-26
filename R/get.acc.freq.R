@@ -6,11 +6,12 @@
 #' @param set optional character indicating the name of the set
 #' @param Horizon optional numeric indicating the horizon
 #' @param conf optional numeric inidcating the confidence level to compute confidence bounds
+#' @param min.preds optional numeric indicating the minimum number of predictions for a frequency level to be considered
 #'
 #' @return dataframe with columns min.prob, Accuracy, Frequency, Set if specified, Horizon if specified, lower and upper if conf is specified
 #' @export
 #'
-get.acc.freq <- function(y, probs, granularity, set, horizon, conf){
+get.acc.freq <- function(y, probs, granularity, set, horizon, conf, min.preds=0){
   min.prob.seq <- seq(0.5, 1, granularity)
   data <- data.frame(min.prob=min.prob.seq, Accuracy=rep(NA, length(min.prob.seq)), Frequency=rep(NA, length(min.prob.seq)))
 
@@ -22,7 +23,8 @@ get.acc.freq <- function(y, probs, granularity, set, horizon, conf){
     data[which(min.prob.seq==min.prob), c("Accuracy", "Frequency")] <- results[c("accuracy", "freq")]
   }
   data <- data[!is.na(data$Accuracy), ]
-  n.small <- length(probs) * data$Frequency  < 200
+
+  n.small <- length(probs) * data$Frequency  < min.preds
   data <- data[!n.small, ] # remove datapoints with little observations
 
   if(!missing(set))
