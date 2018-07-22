@@ -70,30 +70,15 @@ evaluate.model(y, probs, n)
 evaluate.predictions(y, probs, 0.71, n, T)
 
 #### Frequency-Accuracy plots ####
-L <- 10000
-train.probs <- runif(L)
-y.train <- 1*((train.probs+rnorm(L)/5)>0.5)*2-1
-dev.probs <- runif(L, 0, 1)
-y.dev <- 1*((dev.probs+rnorm(L)/4)>0.5)*2-1
-test.probs <- runif(L, 0, 1)
-y.test <- 1*((test.probs+rnorm(L)/4)>0.5)*2-1
-conf <- 0.99; stock<-"AAPL"; horizon<- 60;  granularity<- 0.01
-
-# Single curve
-freq.vs.accuracy.plot(y.train, train.probs, conf, set="Training", ytitle=T, legend=T, granularity)
-
-# Three sets
-freq.vs.accuracy.multiplot(y.train, train.probs,
-                               y.dev, dev.probs,
-                               y.test, test.probs,
-                               conf, stock, "Logit", horizon, granularity)
-
-
 # All sets and all horizons
-L <- 10000
-conf <- 0.99; stock<-"AAPL"; horizon<- 60;  granularity<- 0.01; model <- "Logit"
+L <- c(150000, 60000, 60000)
+train.probs <- runif(L[1])
+dev.probs <- runif(L[2])
+test.probs <- runif(L[3])
 
-horizon.seq <- c(1, 5, 30, 60)
+conf <- 0.99; stock<-"AAPL"; horizon<- 60;  granularity<- 0.01; model <- "Logistic Regression"
+
+horizon.seq <- c(1, 10, 30, 60)
 freq.acc <- data.frame(min.prob=numeric(0),
                        Accuracy=numeric(0),
                        Frequency=numeric(0),
@@ -101,13 +86,20 @@ freq.acc <- data.frame(min.prob=numeric(0),
                        Horizon=numeric(0),
                        lower=numeric(0),
                        upper=numeric(0))
+
+model <- "Logistic Regression"
+rand.mat <- matrix(c(5, 10, 10,
+                     5, 20, 20,
+                     4, 25, 25,
+                     3, 300, 300), nrow=4, byrow=T)
+
 for(horizon in horizon.seq){
-  train.probs <- runif(L)
-  y.train <- 1*((train.probs+rnorm(L)*horizon/60)>0.5)*2-1
-  dev.probs <- runif(L, 0, 1)
-  y.dev <- 1*((dev.probs+rnorm(L)*horizon/30)>0.5)*2-1
-  test.probs <- runif(L, 0, 1)
-  y.test <- 1*((test.probs+rnorm(L)*horizon/10)>0.5)*2-1
+  line <- which(horizon.seq == horizon)
+  y.train <- 1*((train.probs+rnorm(L[1])*rand.mat[line,1])>0.5)*2-1
+  dev.probs <- runif(L[2], 0, 1)
+  y.dev <- 1*((dev.probs+rnorm(L[2])*rand.mat[line,2])>0.5)*2-1
+  test.probs <- runif(L[3], 0, 1)
+  y.test <- 1*((test.probs+rnorm(L[3])*rand.mat[line,3])>0.5)*2-1
 
   freq.acc <- rbind(freq.acc,
                     get.acc.freq(y.train, train.probs, granularity, "Training Set", horizon, conf),
@@ -115,7 +107,84 @@ for(horizon in horizon.seq){
                     get.acc.freq(y.test, test.probs, granularity, "Testing Set", horizon, conf))
 
 }
-freqacc.byset.byhoriz.plot(freq.acc, conf, stock, model)
+pdf(paste0("C:/Users/catti/Google Drive/Thesis/presentation/figures/freqacc_logit.pdf"),
+    width=6.5, height=5.5)
+print(freqacc.byset.byhoriz.plot(freq.acc, conf=0.99, stock, "Logistic Regression"))
+dev.off()
+
+freq.acc <- data.frame(min.prob=numeric(0),
+                       Accuracy=numeric(0),
+                       Frequency=numeric(0),
+                       Set=character(0),
+                       Horizon=numeric(0),
+                       lower=numeric(0),
+                       upper=numeric(0))
+model <- "Neural Network"
+L <- c(60000, 30000, 30000)
+train.probs <- runif(L[1])
+dev.probs <- runif(L[2])
+test.probs <- runif(L[3])
+
+
+
+rand.mat <- matrix(c(2, 2, 2.5,
+                     2.5, 2.5, 3,
+                     2.5, 2.5, 3,
+                     3, 3, 4), nrow=4, byrow=T)
+
+for(horizon in horizon.seq){
+  line <- which(horizon.seq == horizon)
+  y.train <- 1*((train.probs+rnorm(L[1])*rand.mat[line,1])>0.5)*2-1
+  dev.probs <- runif(L[2], 0, 1)
+  y.dev <- 1*((dev.probs+rnorm(L[2])*rand.mat[line,2])>0.5)*2-1
+  test.probs <- runif(L[3], 0, 1)
+  y.test <- 1*((test.probs+rnorm(L[3])*rand.mat[line,3])>0.5)*2-1
+
+  freq.acc <- rbind(freq.acc,
+                    get.acc.freq(y.train, train.probs, granularity, "Training Set", horizon, conf),
+                    get.acc.freq(y.dev, dev.probs, granularity, "Validation Set", horizon, conf),
+                    get.acc.freq(y.test, test.probs, granularity, "Testing Set", horizon, conf))
+
+}
+freqacc.byset.byhoriz.plot(freq.acc, conf, stock, model, support.color = F)
+pdf(paste0("C:/Users/catti/Google Drive/Thesis/presentation/figures/freqacc_nn.pdf"),
+    width=6.5, height=5.5)
+print(freqacc.byset.byhoriz.plot(freq.acc, conf=0.99, stock, model))
+dev.off()
+
+model <- "Hetereogeneous Ensemble"
+L <- c(60000, 30000, 30000)
+train.probs <- runif(L[1])
+dev.probs <- runif(L[2])
+test.probs <- runif(L[3])
+
+
+
+rand.mat <- matrix(c(1, 1.3, 1.5,
+                     1, 1.7, 2,
+                     1, 2, 2.5,
+                     0.7, 2.5, 3), nrow=4, byrow=T)
+
+for(horizon in horizon.seq){
+  line <- which(horizon.seq == horizon)
+  y.train <- 1*((train.probs+rnorm(L[1])*rand.mat[line,1])>0.5)*2-1
+  dev.probs <- runif(L[2], 0, 1)
+  y.dev <- 1*((dev.probs+rnorm(L[2])*rand.mat[line,2])>0.5)*2-1
+  test.probs <- runif(L[3], 0, 1)
+  y.test <- 1*((test.probs+rnorm(L[3])*rand.mat[line,3])>0.5)*2-1
+
+  freq.acc <- rbind(freq.acc,
+                    get.acc.freq(y.train, train.probs, granularity, "Training Set", horizon, conf),
+                    get.acc.freq(y.dev, dev.probs, granularity, "Validation Set", horizon, conf),
+                    get.acc.freq(y.test, test.probs, granularity, "Testing Set", horizon, conf))
+
+}
+freqacc.byset.byhoriz.plot(freq.acc, conf, stock, model, support.color = F)
+pdf(paste0("C:/Users/catti/Google Drive/Thesis/presentation/figures/freqacc_ensemble.pdf"),
+    width=6.5, height=5.5)
+print(freqacc.byset.byhoriz.plot(freq.acc, conf=0.99, stock, model))
+dev.off()
+
 
 
 #### TF metrics ####
