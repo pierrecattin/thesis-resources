@@ -202,13 +202,13 @@ y_true <- tf$constant(y, dtype="int32")
 
 # evaluate functions
 sess <- tf$Session()
-sess$run(metric.exp.sr(y_true, y_pred))
 sess$run(metric.mean.accuracy(y_true, y_pred))
 sess$close()
 
 # check
-evaluate.model(y*2-1, probs, n)
-
+freq.acc <- get.acc.freq(y*2-1, probs, granularity=0.01)
+mean(freq.acc$Accuracy)
+perf.metric(freq.acc, "mean.accuracy")
 
 #### train.nn ####
 # generate data
