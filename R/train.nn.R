@@ -50,23 +50,23 @@ train.nn <- function(x.train, x.dev, y.train, y.dev,
   }
 
   if(missing(tb.log)) {
-    fit <- fit(model,
-               x = x.train,
-               y = y.train,
-               batch_size = batch.size,
-               epochs = epochs,
-               verbose = 1,
-               validation_data =  list(x.dev, y.dev))
+    fit(model,
+        x = x.train,
+        y = y.train,
+        batch_size = batch.size,
+        epochs = epochs,
+        verbose = 1,
+        validation_data =  list(x.dev, y.dev))
   } else {
     tensorboard(paste0("tb_logs/",tb.log))
-    fit <- fit(model,
-               x = x.train,
-               y = y.train,
-               batch_size = batch.size,
-               epochs = epochs,
-               verbose = 1,
-               validation_data =  list(x.dev, y.dev),
-               callbacks = callback_tensorboard(paste0("tb_logs/",tb.log)))
+    fit(model,
+        x = x.train,
+        y = y.train,
+        batch_size = batch.size,
+        epochs = epochs,
+        verbose = 1,
+        validation_data =  list(x.dev, y.dev),
+        callbacks = callback_tensorboard(paste0("tb_logs/",tb.log)))
   }
-  return(fit)
+  return(model)
 }
