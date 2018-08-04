@@ -25,8 +25,3 @@ metric.mean.accuracy <- function(y_true, y_pred){
   mean.accuracy <- tf$reduce_sum(accuracy.zeros, axis=1L)/n.accuracies
   return(mean.accuracy)
 }
-
-
-# sess <- tf$Session()
-# sess$run(accuracy.zeros)
-# sess$close()
