@@ -51,14 +51,28 @@ corrplot(M, method="color", type="upper", tl.col="black", tl.srt=70) # , order="
 
 #### make.ml.sets####
 x <- readRDS("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main/saved_results/lagged_ret_volTRUE_AAPL.RDS")
-y <- indicators <- readRDS("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main/saved_results/y_AAPL.RDS")[[1]]
+y <- readRDS("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main/saved_results/y_AAPL.RDS")[[1]]
 training.start <- date("2014-06-01") # start of training sample
 training.end <- date("2016-05-31") # end of training sample; start of dev sample
 dev.end <- date("2017-05-31")
-testing.end <- date(prices[nrow(prices),])
+test.end <- date("2018-05-31")
 train.for.test.start <- date("2015-06-01")
+scale <- T
 
-sets <- make.ml.sets(x, y, training.start, training.end, dev.end, testing.end, train.for.test.start)
+sets <- make.ml.sets(x, y, training.start, training.end, dev.end, test.end, train.for.test.start)
+
+for (i in 1:length(sets)){
+  assign(names(sets)[i], sets[[i]])
+}
+rm(sets)
+hist(colMeans(x.train), 100)
+hist(colMeans(x.dev), 100)
+hist(colMeans(x.test), 100)
+hist(colMeans(x.train.for.test), 100)
+head(matrix(apply(x.train,2, sd), nrow=1))
+head(matrix(apply(x.dev,2, sd), nrow=1))
+head(matrix(apply(x.test,2, sd), nrow=1))
+head(matrix(apply(x.train.for.test,2, sd), nrow=1))
 
 #### Evaluate model and preds ####
 L <- 10000
