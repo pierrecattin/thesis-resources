@@ -30,7 +30,7 @@ roc.byset.byhoriz.plot <- function (spec.sens, stock, model){
     geom_abline(intercept=1, slope=-1, color="blue", linetype="dotted") +
     scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
     scale_y_continuous(labels = scales::percent)+
-    ggtitle(paste0("ROC curves - ",model,", ", stock))
+    ggtitle(paste0("ROC Curves - ",model,", ", stock))
 
   return(my.plot)
 }

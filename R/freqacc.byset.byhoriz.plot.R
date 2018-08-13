@@ -43,9 +43,9 @@ freqacc.byset.byhoriz.plot <- function (freq.acc, conf, stock, model, support.co
     scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
     scale_y_continuous(labels = scales::percent)+
     theme(legend.position="bottom") +
-    #ggtitle(paste0("Frequency-Accuracy Tradeoff : ",model,", ", stock))
+    ggtitle(paste0("Frequency and Accuracy - ",model,", ", stock))
     #ggtitle("Frequency-Accuracy Tradeoff", subtitle=paste0(model,", ", stock))
-    ggtitle(paste0(model,", ", stock))
+    #ggtitle(paste0(model,", ", stock))
 
   return(my.plot)
 }
