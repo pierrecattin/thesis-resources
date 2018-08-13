@@ -2,20 +2,20 @@
 % Please edit documentation in R/combine.forecasts.R
 \name{combine.forecasts}
 \alias{combine.forecasts}
-\title{Combine Forecasts (WIP)
+\title{Combine Forecasts
 Combine forecasts of various classifiers into one single forecast}
 \usage{
-combine.forecasts(x, y)
+combine.forecasts(predictions.dev, predictions.test, y.dev)
 }
 \arguments{
-\item{x:}{matrix where each line is an observation, and each colum contains the probability that the class is "positive "up" estimated by one model. Colnames are the name of the models.}
+\item{predictions:}{matrix where each column contain predictions (up probability) for a model.}
 
-\item{y:}{vector of true classes}
+\item{y:}{vector of true classes (+1 / -1)}
 }
 \value{
-list containing vector of combined probs and named numerics of coefficients
+list of 2 containing vector of combined probs and fit
 }
 \description{
-Combine Forecasts (WIP)
+Combine Forecasts
 Combine forecasts of various classifiers into one single forecast
 }

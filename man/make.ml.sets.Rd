@@ -5,7 +5,7 @@
 \title{Make training/dev/test test}
 \usage{
 make.ml.sets(x, y, training.start, training.end, dev.end, test.end,
-  train.for.test.start)
+  train.for.test.start, scale = T)
 }
 \arguments{
 \item{x}{: xts of features}
@@ -21,6 +21,8 @@ make.ml.sets(x, y, training.start, training.end, dev.end, test.end,
 \item{test.end}{: date. Optional, if missing, no test set is created}
 
 \item{test.train.start}{: date. Optional. Start of the period used to train the model for the test set}
+
+\item{scale:}{inidcates if x should be scaled to mean 0 and sd 1 (based on training sample mean and sd)}
 }
 \value{
 list containing x.train(xts), x.dev(xts), (x.test(xts)), y.train(factor), y.dev(factor), (y.test(factor))

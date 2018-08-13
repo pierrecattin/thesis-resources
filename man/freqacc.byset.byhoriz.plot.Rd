@@ -4,7 +4,7 @@
 \alias{freqacc.byset.byhoriz.plot}
 \title{Frequency vs accuracy of prediction for all 3 sets and all horizons}
 \usage{
-freqacc.byset.byhoriz.plot(freq.acc, conf, stock, model)
+freqacc.byset.byhoriz.plot(freq.acc, conf, stock, model, support.color = F)
 }
 \arguments{
 \item{freq.acc}{data frame with columns min.prob, Accuracy, Frequency, Set, Horizon, lower, upper}
@@ -14,6 +14,8 @@ freqacc.byset.byhoriz.plot(freq.acc, conf, stock, model)
 \item{stock}{stock name for title}
 
 \item{model}{model name for title}
+
+\item{support.color}{logical indicating if lines should be colored based on support level}
 }
 \value{
 4 by 3 facets ggplot
