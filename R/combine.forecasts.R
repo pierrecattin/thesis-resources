@@ -1,33 +1,19 @@
-#' Combine Forecasts (WIP)
+#' Combine Forecasts
 #' Combine forecasts of various classifiers into one single forecast
 #'
-#' @param x: matrix where each line is an observation, and each colum contains the probability that the class is "positive "up" estimated by one model. Colnames are the name of the models.
-#' @param y: vector of true classes
+#' @param predictions: matrix where each column contain predictions (up probability) for a model.
+#' @param y: vector of true classes (+1 / -1)
 #'
-#' @return list containing vector of combined probs and named numerics of coefficients
+#' @return list of 2 containing vector of combined probs and fit
 #' @export
 #'
-combine.forecasts <- function(x, y){
-  stopifnot(nrow(x) == length(y))
-  data <- cbind(y, x)
-  data <- data.frame(data)
-  colnames(data)<-c("y", colnames(x))
-  # prior <- rep(0.5,2)
-  # lda.fit <- lda(y~., data=data, prior=prior)
-  # probs <- predict(lda.fit, newdata=data.frame(x))$posterior[,2:1]
-  # # yhat <- (probs[,1]>=0.5)*2-1; sum(yhat!=y)/length(y)
-  # coeffs <- lda.fit$scaling
-  # scores <- x %*% matrix(coeffs, ncol=1)
-  # plot(scores, probs[,1])
-  return("hello")
+combine.forecasts <- function(predictions.dev, predictions.test, y.dev){
+  stopifnot(nrow(predictions.dev) == length(y.dev))
+
+  fit <- glm(y.dev~.,data.frame(predictions.dev), family=binomial)
+
+  probs.dev <-  as.numeric(predict(object=fit, newdata=data.frame(predictions.dev), type="response"))
+  probs.test <-  as.numeric(predict(object=fit, newdata=data.frame(predictions.test), type="response"))
+
+  return(list(probs.dev=probs.dev, probs.test=probs.test, fit=fit))
 }
-
-
-# x<- matrix(rnorm(10000*4), ncol=4)
-# y <- ((x[,1]+2*x[,2]-x[,3]-4*x[,4])>0)*2-1
-# #y <- ((x[,1])>0)*2-1
-# colnames(x)<-paste0("model_",1:ncol(x))
-# plot(y, x[,1])
-#
-# head(log(1.657558*x))
-# head(probs)

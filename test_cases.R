@@ -1,4 +1,6 @@
-rm(list=ls())
+rm(list=ls()); gc()
+setwd("C:/Users/catti/Desktop/thesis_data_analysis/thesis.resources")
+library(stats)
 library(ggplot2)
 library(grid)
 library(tensorflow)
@@ -22,6 +24,99 @@ source("R/metric.mean.accuracy.R")
 source("R/train.nn.R")
 source("R/compute.indicators.R")
 source("R/make.ml.sets.R")
+source("R/combine.forecasts.R")
+
+
+#### combine.forecasts ####
+setwd("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main")
+lr <- readRDS("saved_results/all_stocks/logit_all_taFALSE.RDS")
+knn <- readRDS("saved_results/all_stocks/knn_all.RDS")
+rf <- readRDS("saved_results/all_stocks/rf_all.RDS")
+ffann <- readRDS("saved_results/all_stocks/ffann_all.RDS")
+#svm <- readRDS("saved_results/all_stocks/svm_all.RDS")
+
+stock <- "AAPL"
+horizon <- 1
+set <- "Validation Set"
+predictions.dev <- cbind(lr=lr[[stock]]$y.probs.and.true[lr[[stock]]$y.probs.and.true$horizon == horizon & lr[[stock]]$y.probs.and.true$set == set, ]$prob,
+                    knn=knn[[stock]]$y.probs.and.true[lr[[stock]]$y.probs.and.true$horizon == horizon & lr[[stock]]$y.probs.and.true$set == set, ]$prob,
+                    rf=rf[[stock]]$y.probs.and.true[lr[[stock]]$y.probs.and.true$horizon == horizon & lr[[stock]]$y.probs.and.true$set == set, ]$prob,
+                    ffann=ffann[[stock]]$y.probs.and.true[lr[[stock]]$y.probs.and.true$horizon == horizon & lr[[stock]]$y.probs.and.true$set == set, ]$prob)
+head(predictions.dev)
+y.dev <- lr[[stock]]$y.probs.and.true[lr[[stock]]$y.probs.and.true$horizon == horizon & lr[[stock]]$y.probs.and.true$set == set, ]$y.true
+summary(y.dev)
+
+set <- "Testing Set"
+predictions.test <- cbind(lr=lr[[stock]]$y.probs.and.true[lr[[stock]]$y.probs.and.true$horizon == horizon & lr[[stock]]$y.probs.and.true$set == set, ]$prob,
+                         knn=knn[[stock]]$y.probs.and.true[lr[[stock]]$y.probs.and.true$horizon == horizon & lr[[stock]]$y.probs.and.true$set == set, ]$prob,
+                         rf=rf[[stock]]$y.probs.and.true[lr[[stock]]$y.probs.and.true$horizon == horizon & lr[[stock]]$y.probs.and.true$set == set, ]$prob,
+                         ffann=ffann[[stock]]$y.probs.and.true[lr[[stock]]$y.probs.and.true$horizon == horizon & lr[[stock]]$y.probs.and.true$set == set, ]$prob)
+head(predictions.test)
+y.test <- lr[[stock]]$y.probs.and.true[lr[[stock]]$y.probs.and.true$horizon == horizon & lr[[stock]]$y.probs.and.true$set == set, ]$y.true
+summary(y.test)
+
+f <- combine.forecasts(predictions.dev, predictions.test, y.dev)
+
+#### Sanity checks ####
+setwd("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main")
+lr <- readRDS("saved_results/all_stocks/logit_all.RDS")
+knn <- readRDS("saved_results/all_stocks/knn_all.RDS")
+rf <- readRDS("saved_results/all_stocks/rf_all.RDS")
+ffann <- readRDS("saved_results/all_stocks/ffann_all.RDS")
+svm <- readRDS("saved_results/all_stocks/svm_all.RDS")
+
+for(stock in names(ffann)){
+  print("##################");print(stock)
+  ffnn.sub <- ffann[[stock]]$y.probs.and.true$y.true
+  knn.sub <- knn[[stock]]$y.probs.and.true$y.true
+  rf.sub <- rf[[stock]]$y.probs.and.true$y.true
+  svm.sub <- svm[[stock]]$y.probs.and.true$y.true
+  stopifnot(all.equal(ffnn.sub, knn.sub, rf.sub, svm.sub))
+}
+
+stock <- "XOM"
+for(stock in names(ffann)){
+  print("##################");print(stock)
+  ffnn.sub <- ffann[[stock]]$y.probs.and.true
+  lr.sub <- lr[[stock]]$y.probs.and.true
+  # knn <- knn[[stock]]$y.probs.and.true
+  # rf <- rf[[stock]]$y.probs.and.true
+  print("Training")
+  cat("ref", sum(ffnn.sub$set=="Training Set"), "\n")
+  cat("lr", sum(lr.sub$set=="Training Set"), "\n")
+  print("Validation")
+  cat("ref", sum(ffnn.sub$set=="Validation Set"), "\n")
+  cat("lr", sum(lr.sub$set=="Validation Set"), "\n")
+  print("Testing")
+  cat("ref", sum(ffnn.sub$set=="Testing Set"), "\n")
+  cat("lr", sum(lr.sub$set=="Testing Set"), "\n")
+}
+# AAPL
+# ffnn    logit   knn     rf
+# 986832  986832  986832  986832
+# XOM
+# 985844  986832  985844  985844
+# MSFT
+# 986263  986832  986263  986263
+
+
+model <- "knn"
+#res <- readRDS(paste0("saved_results/all_stocks/logit_all_taTRUE.RDS"))
+res <- readRDS(paste0("saved_results/all_stocks/", model, "_all.RDS"))
+stock <- names(res)[4]
+for(stock in names(res)){
+    y.true <- ffann[[stock]]$y.probs.and.true$y.true
+    res[[stock]]$y.probs.and.true$horizon <- as.numeric(res[[stock]]$y.probs.and.true$horizon)
+    res[[stock]]$y.probs.and.true$prob <- as.numeric(res[[stock]]$y.probs.and.true$prob)
+    res[[stock]]$y.probs.and.true$y.true <- y.true
+    gc()
+}
+saveRDS(res, paste0("saved_results/all_stocks/", model, "_all.RDS"))
+
+
+
+
+
 
 #### get.acc.freq ####
 L <- 10000
