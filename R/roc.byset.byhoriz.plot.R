@@ -19,17 +19,17 @@ roc.byset.byhoriz.plot <- function (spec.sens, stock, model){
   horizon.levels <- paste(horizon.levels, "min")
   spec.sens$Horizon <- factor(paste(spec.sens$Horizon, "min"), levels=horizon.levels)
 
-  # library(extrafont)
-  # loadfonts(device = "win")
-  my.plot <- ggplot(data=spec.sens, aes(x=Specificity, y=Sensitivity)) +
+  spec.sens$FPR <- 1-spec.sens$Specificity
+
+  my.plot <- ggplot(data=spec.sens, aes(x=FPR, y=Sensitivity)) +
     facet_grid(Horizon~Set) +
     theme_bw(base_size=13, base_family="serif")+
     geom_line()
 
   my.plot <- my.plot+
-    geom_abline(intercept=1, slope=-1, color="blue", linetype="dotted") +
-    scale_x_continuous(limits = c(0, 1), labels = scales::percent) +
-    scale_y_continuous(labels = scales::percent)+
+    geom_abline(intercept=0, slope=1, color="blue", linetype="dotted") +
+    scale_x_continuous(name="False Positive Rate", limits = c(0, 1), labels = scales::percent) +
+    scale_y_continuous(name="True Positive Rate", labels = scales::percent)+
     ggtitle(paste0("ROC Curves - ",model,", ", stock))
 
   return(my.plot)
