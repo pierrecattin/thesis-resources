@@ -5,13 +5,13 @@
 \title{Compute Price Direction
 Computes a variable describing the direction of future price changes}
 \usage{
-compute.price.direction(prices, daily.start, horizon, min.return = 0,
+compute.price.direction(prices, daily.start = 1, horizon, min.return = 0,
   loading = T)
 }
 \arguments{
-\item{prices}{xts where one numeric column has to be called "close"}
+\item{prices}{xts where one numeric column has to be called "open" and one "close"}
 
-\item{daily.start}{which observation number should be the first one for which the variable is computed each day; numeric}
+\item{daily.start}{DEPRECATED (which observation number should be the first one for which the variable is computed each day; numeric)}
 
 \item{horizon}{prediction horizon; numeric}
 
