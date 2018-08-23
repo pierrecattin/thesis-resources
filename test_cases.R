@@ -63,7 +63,6 @@ lr <- readRDS("saved_results/all_stocks/logit_all.RDS")
 knn <- readRDS("saved_results/all_stocks/knn_all.RDS")
 rf <- readRDS("saved_results/all_stocks/rf_all.RDS")
 ffann <- readRDS("saved_results/all_stocks/ffann_all.RDS")
-svm <- readRDS("saved_results/all_stocks/svm_all.RDS")
 
 for(stock in names(ffann)){
   print("##################");print(stock)
@@ -81,12 +80,12 @@ for(stock in names(ffann)){
   lr.sub <- lr[[stock]]$y.probs.and.true
   # knn <- knn[[stock]]$y.probs.and.true
   # rf <- rf[[stock]]$y.probs.and.true
-  print("Training")
-  cat("ref", sum(ffnn.sub$set=="Training Set"), "\n")
-  cat("lr", sum(lr.sub$set=="Training Set"), "\n")
-  print("Validation")
-  cat("ref", sum(ffnn.sub$set=="Validation Set"), "\n")
-  cat("lr", sum(lr.sub$set=="Validation Set"), "\n")
+  # print("Training")
+  # cat("ref", sum(ffnn.sub$set=="Training Set"), "\n")
+  # cat("lr", sum(lr.sub$set=="Training Set"), "\n")
+  # print("Validation")
+  # cat("ref", sum(ffnn.sub$set=="Validation Set"), "\n")
+  # cat("lr", sum(lr.sub$set=="Validation Set"), "\n")
   print("Testing")
   cat("ref", sum(ffnn.sub$set=="Testing Set"), "\n")
   cat("lr", sum(lr.sub$set=="Testing Set"), "\n")
@@ -130,6 +129,15 @@ freq.acc <- get.acc.freq(y, probs, granularity, set, horizon, conf, min.preds, s
 # plot(x=sqrt(q*m)*(2*p-1)/sqrt(-4*p^2*q+4*p*q-q+1), y=freq.acc$Sr)
 metric <- "mean.accuracy"
 perf.metric(freq.acc, metric)
+
+#### price direction ####
+prices <- readRDS("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main/data/clean/t_prices_AAPL.RDS")
+prices <- prices[date(time(prices))<="2013-01-03", ]
+horizon <- 10
+min.return <- 0
+loading<-T
+
+compute.price.direction(prices=prices, horizon=1, min.return=0, loading=loading)
 
 #### Indicators  ####
 prices <- readRDS("C:/Users/catti/Desktop/thesis_data_analysis/thesis.main/data/clean/t_prices_AAPL.RDS")

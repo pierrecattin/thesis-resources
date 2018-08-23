@@ -1,7 +1,7 @@
-# thesis-resources
-This is an R package that contains support function for my Master's Thesis: Predicting Intraday Stock Price Direction using Machine Learning Techniques
+## thesis-resources
+This is an R package that contains support functions for my Master's Thesis: Predicting Intraday Stock Price Direction using Machine Learning Techniques
 
-## Installation
+### Installation
 ```{r}
 install.packages("devtools")
 library(devtools)
@@ -12,5 +12,5 @@ library(thesis.resources)
 ### Dependencies
 TTR, xts, tcltk, ggplot2, scales, grid, fGarch, tensorflow, keras, lubridate
 
-## Test cases
+### Test cases
 Test cases are provided in test_cases.R
