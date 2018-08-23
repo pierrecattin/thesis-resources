@@ -61,9 +61,9 @@ compute.indicators <- function(prices, loading=T){
     cci.60 <- as.numeric(CCI(prices.day[, c("high", "low", "close")], n=60, maType="EMA", c=0.015))
     cci.120 <- as.numeric(CCI(prices.day[, c("high", "low", "close")], n=120, maType="EMA", c=0.015))
 
-    indicators[all.days==d,]$cci.10 <- c(NA, cci.10[-nrow(cci.10)])
-    indicators[all.days==d,]$cci.60 <- c(NA, cci.60[-nrow(cci.60)])
-    indicators[all.days==d,]$cci.120 <- c(NA, cci.120[-nrow(cci.120)])
+    indicators[all.days==d,]$cci.10 <- c(NA, cci.10[-length(cci.10)])
+    indicators[all.days==d,]$cci.60 <- c(NA, cci.60[-length(cci.60)])
+    indicators[all.days==d,]$cci.120 <- c(NA, cci.120[-length(cci.120)])
 
     # OBV
     indicators[all.days==d,]$obv <- as.numeric(OBV(prices.day$open, prices.day$volume))
