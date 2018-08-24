@@ -36,8 +36,8 @@ compute.price.direction <- function (prices, daily.start=1, horizon, min.return=
     } else{
       future.closes <- c(as.numeric(closes[horizon:nrow(closes),]),
                          rep(NA, horizon-1)) # closes horizon-1 minutes ahead
-      up <- 1*(future.closes >= opens*(1+min.return))
-      down <- 1*(future.closes < opens*(1-min.return))
+      up <- 1*(future.closes > opens*(1+min.return))
+      down <- 1*(future.closes <= opens*(1-min.return))
       y$movement[all.days==d,] <- up - down
     }
   }
